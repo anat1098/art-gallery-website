@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "prints": "Prints",
+    "originals": "Originals",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "shopPrints": "Shop Prints",
+    "viewGallery": "View Gallery",
+    "viewAll": "View all",
+    "readMore": "Read More",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "join": "Join",
+    "yourEmail": "Your email",
+    "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout"
+  },
+  "home": {
+    "eyebrow": "Original Art & Fine Art Prints",
+    "heroTitle": "A quiet space for slow looking",
+    "heroSubtitle": "Original paintings and museum-quality prints, each made by hand and shipped worldwide with care.",
+    "featuredPrintsEyebrow": "Fine Art Prints",
+    "featuredPrintsTitle": "Featured Prints",
+    "featuredOriginalsEyebrow": "Originals",
+    "featuredOriginalsTitle": "Featured Original Artworks",
+    "aboutEyebrow": "About the Artist",
+    "aboutTitle": "Made slowly, by hand",
+    "aboutBody": "Every piece begins in the studio, worked over days rather than hours. The result is a small, considered body of work — original paintings and the prints made from them.",
+    "newsletterEyebrow": "Newsletter",
+    "newsletterTitle": "Be the first to see new work",
+    "newsletterBody": "New paintings, print releases, and studio notes — no more than once a month."
+  },
+  "footer": {
+    "tagline": "Original paintings and museum-quality prints, shipped worldwide.",
+    "navigate": "Navigate",
+    "connect": "Connect",
+    "rightsReserved": "All rights reserved."
+  }
+}

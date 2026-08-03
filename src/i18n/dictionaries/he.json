@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "prints": "הדפסים",
+    "originals": "יצירות מקור",
+    "about": "אודות",
+    "contact": "צור קשר"
+  },
+  "common": {
+    "shopPrints": "לרכישת הדפסים",
+    "viewGallery": "לצפייה בגלריה",
+    "viewAll": "לכל הפריטים",
+    "readMore": "קראו עוד",
+    "addToCart": "הוספה לסל",
+    "buyNow": "קנייה מיידית",
+    "join": "הצטרפות",
+    "yourEmail": "האימייל שלך",
+    "continueShopping": "המשך קנייה",
+    "proceedToCheckout": "מעבר לתשלום"
+  },
+  "home": {
+    "eyebrow": "יצירות מקור והדפסי אמנות",
+    "heroTitle": "מרחב שקט להתבוננות איטית",
+    "heroSubtitle": "יצירות מקור והדפסים באיכות מוזיאלית, כל אחד נעשה ביד ונשלח בזהירות לכל העולם.",
+    "featuredPrintsEyebrow": "הדפסי אמנות",
+    "featuredPrintsTitle": "הדפסים נבחרים",
+    "featuredOriginalsEyebrow": "יצירות מקור",
+    "featuredOriginalsTitle": "יצירות מקור נבחרות",
+    "aboutEyebrow": "אודות האמן/ית",
+    "aboutTitle": "נוצר לאט, ביד",
+    "aboutBody": "כל יצירה מתחילה בסטודיו ונוצרת לאורך ימים ולא שעות. התוצאה היא גוף עבודה מצומצם ומדויק — יצירות מקור וההדפסים שנוצרים מהן.",
+    "newsletterEyebrow": "ניוזלטר",
+    "newsletterTitle": "היו הראשונים לראות עבודות חדשות",
+    "newsletterBody": "יצירות חדשות, הדפסים חדשים ועדכונים מהסטודיו — לא יותר מפעם בחודש."
+  },
+  "footer": {
+    "tagline": "יצירות מקור והדפסים באיכות מוזיאלית, נשלחים לכל העולם.",
+    "navigate": "ניווט",
+    "connect": "יצירת קשר",
+    "rightsReserved": "כל הזכויות שמורות."
+  }
+}
