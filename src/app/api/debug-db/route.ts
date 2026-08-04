@@ -19,6 +19,10 @@ export async function GET() {
         dbUrlHost: process.env.DATABASE_URL
           ? new URL(process.env.DATABASE_URL).host
           : null,
+        testVar: process.env.TEST_VAR ?? null,
+        allEnvKeysSample: Object.keys(process.env).filter(
+          (k) => !k.startsWith("VERCEL") && !k.startsWith("NEXT_") && !k.startsWith("npm_")
+        ),
       },
       { status: 500 }
     );
