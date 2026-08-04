@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLocale } from "@/components/providers/locale-provider";
 
 type CatalogToolbarProps = {
   mediums: string[];
@@ -23,6 +24,7 @@ export function CatalogToolbar({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { t } = useLocale();
 
   const sort = searchParams.get("sort") ?? "";
   const medium = searchParams.get("medium") ?? "";
@@ -40,7 +42,7 @@ export function CatalogToolbar({
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
       <p className="text-sm text-muted-foreground">
-        {resultCount} {resultCount === 1 ? "artwork" : "artworks"}
+        {resultCount} {resultCount === 1 ? t.catalog.resultOne : t.catalog.resultMany}
       </p>
       <div className="flex flex-wrap items-center gap-3">
         {showMediumFilter && (
@@ -49,10 +51,10 @@ export function CatalogToolbar({
             onValueChange={(v) => updateParam("medium", v === "all" ? "" : v)}
           >
             <SelectTrigger className="w-40 rounded-none">
-              <SelectValue placeholder="Medium" />
+              <SelectValue placeholder={t.catalog.medium} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Mediums</SelectItem>
+              <SelectItem value="all">{t.catalog.allMediums}</SelectItem>
               {mediums.map((m) => (
                 <SelectItem key={m} value={m}>
                   {m}
@@ -67,12 +69,12 @@ export function CatalogToolbar({
           onValueChange={(v) => updateParam("sort", v === "default" ? "" : v)}
         >
           <SelectTrigger className="w-44 rounded-none">
-            <SelectValue placeholder="Sort" />
+            <SelectValue placeholder={t.catalog.sort} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="default">Featured</SelectItem>
-            <SelectItem value="price-asc">Price: Low to High</SelectItem>
-            <SelectItem value="price-desc">Price: High to Low</SelectItem>
+            <SelectItem value="default">{t.catalog.featured}</SelectItem>
+            <SelectItem value="price-asc">{t.catalog.priceLowHigh}</SelectItem>
+            <SelectItem value="price-desc">{t.catalog.priceHighLow}</SelectItem>
           </SelectContent>
         </Select>
       </div>

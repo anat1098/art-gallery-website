@@ -2,20 +2,21 @@
 
 import { motion } from "framer-motion";
 import { ArtworkCard } from "@/components/gallery/artwork-card";
+import { useLocale } from "@/components/providers/locale-provider";
 import type { ArtworkCardData } from "@/types/artwork";
 
 export function CatalogGrid({ artworks }: { artworks: ArtworkCardData[] }) {
+  const { t } = useLocale();
+
   if (artworks.length === 0) {
     return (
-      <p className="py-20 text-center text-muted-foreground">
-        No artworks match these filters yet.
-      </p>
+      <p className="py-20 text-center text-muted-foreground">{t.catalog.empty}</p>
     );
   }
 
   return (
     <motion.div
-      className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-4"
+      className="mt-10 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 lg:grid-cols-4"
       initial="hidden"
       animate="show"
       variants={{

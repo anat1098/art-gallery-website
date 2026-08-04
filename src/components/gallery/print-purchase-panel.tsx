@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { useCurrency } from "@/components/providers/currency-provider";
+import { useLocale } from "@/components/providers/locale-provider";
 import type { ArtworkDetailData } from "@/types/artwork";
 
 export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) {
@@ -20,6 +21,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
   const router = useRouter();
   const addLine = useCartStore((s) => s.addLine);
   const { format } = useCurrency();
+  const { t } = useLocale();
 
   const [sizeId, setSizeId] = useState(sizes[0]?.id);
   const [frameId, setFrameId] = useState(
@@ -60,14 +62,14 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
   return (
     <div>
       <p className="mt-6 text-xs font-medium tracking-widest text-muted-foreground uppercase">
-        Price
+        {t.artwork.price}
       </p>
       <p className="mt-1 text-2xl">{format(totalPrice)}</p>
 
       {sizes.length > 0 && (
         <div className="mt-8">
           <p className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-            Size
+            {t.artwork.size}
           </p>
           <Select value={sizeId} onValueChange={setSizeId}>
             <SelectTrigger className="mt-2 w-full rounded-none">
@@ -77,7 +79,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
               {sizes.map((s) => (
                 <SelectItem key={s.id} value={s.id} disabled={s.inventory <= 0}>
                   {s.label} — {format(s.price)}
-                  {s.inventory <= 0 ? " (Out of stock)" : ""}
+                  {s.inventory <= 0 ? ` ${t.artwork.outOfStockOption}` : ""}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -88,7 +90,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
       {frames.length > 0 && (
         <div className="mt-6">
           <p className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-            Frame
+            {t.artwork.frame}
           </p>
           <Select value={frameId} onValueChange={setFrameId}>
             <SelectTrigger className="mt-2 w-full rounded-none">
@@ -114,7 +116,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
           disabled={outOfStock}
           onClick={handleAddToCart}
         >
-          {outOfStock ? "Out of Stock" : "Add to Cart"}
+          {outOfStock ? t.artwork.outOfStock : t.common.addToCart}
         </Button>
         <Button
           size="lg"
@@ -122,13 +124,13 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
           disabled={outOfStock}
           onClick={handleBuyNow}
         >
-          Buy Now
+          {t.common.buyNow}
         </Button>
       </div>
 
       {artwork.estimatedDelivery && (
         <p className="mt-6 text-sm text-muted-foreground">
-          Estimated delivery: {artwork.estimatedDelivery}
+          {t.artwork.estimatedDelivery}: {artwork.estimatedDelivery}
         </p>
       )}
     </div>

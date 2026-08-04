@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { ArtworkGallery } from "@/components/gallery/artwork-gallery";
 import { PrintPurchasePanel } from "@/components/gallery/print-purchase-panel";
@@ -8,6 +9,8 @@ import {
   getArtworkBySlug,
   getRelatedArtworks,
 } from "@/lib/constants/placeholder-artworks";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 type PrintPageProps = {
   params: Promise<{ slug: string }>;
@@ -35,6 +38,10 @@ export default async function PrintPage({ params }: PrintPageProps) {
   if (!artwork) notFound();
 
   const related = getRelatedArtworks(artwork);
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale];
 
   return (
     <div>
@@ -45,13 +52,11 @@ export default async function PrintPage({ params }: PrintPageProps) {
           <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
             {artwork.categoryName} · {artwork.medium}
           </p>
-          <h1 className="mt-3 text-4xl lg:text-5xl italic">&lsquo;{artwork.title}&rsquo;</h1>
-          <p className="mt-6 max-w-md text-muted-foreground">
-            {artwork.description}
-          </p>
+          <h1 className="mt-3 text-4xl lg:text-5xl">&lsquo;{artwork.title}&rsquo;</h1>
+          <p className="mt-6 max-w-md text-muted-foreground">{artwork.description}</p>
           {artwork.materials && (
             <p className="mt-4 text-sm text-muted-foreground">
-              Materials: {artwork.materials}
+              {t.artwork.materials}: {artwork.materials}
             </p>
           )}
 

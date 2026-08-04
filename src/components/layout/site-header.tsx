@@ -34,7 +34,7 @@ export function SiteHeader() {
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 bg-background">
+            <SheetContent side={locale === "he" ? "right" : "left"} className="w-72 bg-background">
               <SheetTitle className="px-6 pt-6 font-display text-xl">
                 {siteSettings.storeName}
               </SheetTitle>
@@ -58,10 +58,7 @@ export function SiteHeader() {
           </Sheet>
         </div>
 
-        <Link
-          href="/"
-          className="font-display text-xl tracking-wide lg:text-2xl"
-        >
+        <Link href="/" className="font-display text-xl tracking-wide lg:text-2xl">
           {siteSettings.storeName}
         </Link>
 
@@ -84,17 +81,11 @@ export function SiteHeader() {
           </div>
           <SiteSearch />
           <AccountMenu />
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Cart"
-            className="relative"
-            asChild
-          >
+          <Button variant="ghost" size="icon" aria-label="Cart" className="relative" asChild>
             <Link href="/cart">
               <ShoppingBag className="size-[18px]" />
               {cartCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-brand text-[10px] text-brand-foreground">
+                <span className="absolute -end-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-brand text-[10px] text-brand-foreground">
                   {cartCount}
                 </span>
               )}

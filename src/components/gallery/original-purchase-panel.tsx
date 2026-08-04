@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { useCurrency } from "@/components/providers/currency-provider";
+import { useLocale } from "@/components/providers/locale-provider";
 import type { ArtworkDetailData } from "@/types/artwork";
 
 export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) {
   const router = useRouter();
   const addLine = useCartStore((s) => s.addLine);
   const { format } = useCurrency();
+  const { t } = useLocale();
 
   function buildLine() {
     return {
@@ -34,19 +36,19 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
   return (
     <div>
       <p className="mt-6 text-xs font-medium tracking-widest text-muted-foreground uppercase">
-        Price
+        {t.artwork.price}
       </p>
       <div className="mt-1 flex items-center gap-3">
         <p className="text-2xl">{format(artwork.price)}</p>
         {artwork.isSold && (
-          <Badge className="rounded-none bg-foreground text-background">Sold</Badge>
+          <Badge className="rounded-none bg-foreground text-background">{t.artwork.sold}</Badge>
         )}
       </div>
 
       <dl className="mt-6 grid grid-cols-2 gap-y-2 text-sm">
         {artwork.widthCm && artwork.heightCm && (
           <>
-            <dt className="text-muted-foreground">Dimensions</dt>
+            <dt className="text-muted-foreground">{t.artwork.dimensions}</dt>
             <dd>
               {artwork.widthCm} × {artwork.heightCm} cm
             </dd>
@@ -54,11 +56,11 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
         )}
         {artwork.yearCreated && (
           <>
-            <dt className="text-muted-foreground">Year</dt>
+            <dt className="text-muted-foreground">{t.artwork.year}</dt>
             <dd>{artwork.yearCreated}</dd>
           </>
         )}
-        <dt className="text-muted-foreground">Medium</dt>
+        <dt className="text-muted-foreground">{t.artwork.medium}</dt>
         <dd>{artwork.medium}</dd>
       </dl>
 
@@ -70,7 +72,7 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
           disabled={artwork.isSold}
           onClick={handleAddToCart}
         >
-          {artwork.isSold ? "Sold" : "Add to Cart"}
+          {artwork.isSold ? t.artwork.sold : t.common.addToCart}
         </Button>
         <Button
           size="lg"
@@ -78,14 +80,12 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
           disabled={artwork.isSold}
           onClick={handleBuyNow}
         >
-          Buy Now
+          {t.common.buyNow}
         </Button>
       </div>
 
       {artwork.shippingTimeNote && (
-        <p className="mt-6 text-sm text-muted-foreground">
-          {artwork.shippingTimeNote}
-        </p>
+        <p className="mt-6 text-sm text-muted-foreground">{artwork.shippingTimeNote}</p>
       )}
     </div>
   );

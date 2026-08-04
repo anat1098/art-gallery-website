@@ -49,17 +49,21 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
   return (
     <Link href={href} className="group block">
       <motion.div
-        className="relative aspect-[4/5] overflow-hidden bg-muted"
+        className="relative aspect-square overflow-hidden bg-muted sm:aspect-[4/5]"
         whileHover="hover"
         initial="rest"
       >
-        <motion.div className="h-full w-full" variants={imageVariants} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
+        <motion.div
+          className="h-full w-full"
+          variants={imageVariants}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <ArtworkPlaceholder seed={artwork.id} className="h-full w-full" />
         </motion.div>
 
         {artwork.isSold && (
-          <Badge className="absolute left-3 top-3 rounded-none bg-foreground text-background">
-            Sold
+          <Badge className="absolute start-3 top-3 rounded-none bg-foreground text-background">
+            {t.artwork.sold}
           </Badge>
         )}
 
@@ -82,11 +86,11 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
 
       <div className="mt-4 flex items-baseline justify-between gap-2">
         <div>
-          <p className="font-display text-lg italic">&lsquo;{artwork.title}&rsquo;</p>
+          <p className="font-display text-lg">&lsquo;{artwork.title}&rsquo;</p>
           <p className="text-sm text-muted-foreground">{artwork.medium}</p>
         </div>
         <p className="whitespace-nowrap text-sm text-foreground/80">
-          {artwork.type === "PRINT" ? "from " : ""}
+          {artwork.type === "PRINT" ? `${t.artwork.from} ` : ""}
           {format(artwork.price)}
         </p>
       </div>

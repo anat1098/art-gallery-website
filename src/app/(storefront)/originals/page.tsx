@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { CatalogToolbar } from "@/components/gallery/catalog-toolbar";
 import { CatalogGrid } from "@/components/gallery/catalog-grid";
 import { allOriginals, toCard } from "@/lib/constants/placeholder-artworks";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Originals",
@@ -14,6 +17,10 @@ type OriginalsPageProps = {
 
 export default async function OriginalsPage({ searchParams }: OriginalsPageProps) {
   const { sort } = await searchParams;
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale];
 
   const sorted = [...allOriginals].sort((a, b) => {
     if (sort === "price-asc") return a.price - b.price;
@@ -25,13 +32,10 @@ export default async function OriginalsPage({ searchParams }: OriginalsPageProps
     <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10 lg:py-20">
       <div className="max-w-2xl">
         <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
-          Originals
+          {t.originals.eyebrow}
         </p>
-        <h1 className="mt-3">Original Artworks</h1>
-        <p className="mt-4 text-muted-foreground">
-          One-of-a-kind paintings, each sold as a single original piece. Once
-          sold, a work is never reproduced as an original again.
-        </p>
+        <h1 className="mt-3">{t.originals.title}</h1>
+        <p className="mt-4 text-muted-foreground">{t.originals.description}</p>
       </div>
 
       <div className="mt-10">

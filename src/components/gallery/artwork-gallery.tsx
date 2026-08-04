@@ -31,7 +31,7 @@ export function ArtworkGallery({ images }: { images: ArtworkImageData[] }) {
           type="button"
           aria-label="View full screen"
           onClick={() => setZoomOpen(true)}
-          className="absolute bottom-4 right-4 flex size-10 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm transition-transform hover:scale-105"
+          className="absolute bottom-4 end-4 flex size-10 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm transition-transform hover:scale-105"
         >
           <ZoomIn className="size-[18px]" />
         </button>
@@ -70,7 +70,7 @@ export function ArtworkGallery({ images }: { images: ArtworkImageData[] }) {
               type="button"
               aria-label="Close"
               onClick={() => setZoomOpen(false)}
-              className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full bg-background/90 text-foreground"
+              className="absolute end-4 top-4 flex size-9 items-center justify-center rounded-full bg-background/90 text-foreground"
             >
               <X className="size-[18px]" />
             </button>

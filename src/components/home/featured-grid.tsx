@@ -14,11 +14,12 @@ type FeaturedGridProps = {
 };
 
 export function FeaturedGrid({ variant, artworks, viewAllHref }: FeaturedGridProps) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const eyebrow =
     variant === "prints" ? t.home.featuredPrintsEyebrow : t.home.featuredOriginalsEyebrow;
   const title =
     variant === "prints" ? t.home.featuredPrintsTitle : t.home.featuredOriginalsTitle;
+  const arrow = locale === "he" ? "←" : "→";
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
@@ -30,12 +31,14 @@ export function FeaturedGrid({ variant, artworks, viewAllHref }: FeaturedGridPro
           <h2 className="mt-3">{title}</h2>
         </div>
         <Button variant="link" className="px-0 text-sm" asChild>
-          <Link href={viewAllHref}>{t.common.viewAll} &rarr;</Link>
+          <Link href={viewAllHref}>
+            {t.common.viewAll} {arrow}
+          </Link>
         </Button>
       </div>
 
       <motion.div
-        className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-4"
+        className="mt-10 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 lg:grid-cols-4"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}

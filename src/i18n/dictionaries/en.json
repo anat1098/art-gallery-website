@@ -19,15 +19,15 @@
   },
   "home": {
     "eyebrow": "Original Art & Fine Art Prints",
-    "heroTitle": "A quiet space for slow looking",
-    "heroSubtitle": "Original paintings and museum-quality prints, each made by hand and shipped worldwide with care.",
+    "heroTitle": "Original paintings and fine art prints",
+    "heroSubtitle": "Original paintings and museum-quality prints, made by hand and shipped worldwide.",
     "featuredPrintsEyebrow": "Fine Art Prints",
     "featuredPrintsTitle": "Featured Prints",
     "featuredOriginalsEyebrow": "Originals",
     "featuredOriginalsTitle": "Featured Original Artworks",
     "aboutEyebrow": "About the Artist",
-    "aboutTitle": "Made slowly, by hand",
-    "aboutBody": "Every piece begins in the studio, worked over days rather than hours. The result is a small, considered body of work — original paintings and the prints made from them.",
+    "aboutTitle": "About the studio",
+    "aboutBody": "Each piece is painted by hand in the studio and available as an original or a fine art print.",
     "newsletterEyebrow": "Newsletter",
     "newsletterTitle": "Be the first to see new work",
     "newsletterBody": "New paintings, print releases, and studio notes — no more than once a month."
@@ -37,5 +37,68 @@
     "navigate": "Navigate",
     "connect": "Connect",
     "rightsReserved": "All rights reserved."
+  },
+  "prints": {
+    "eyebrow": "Fine Art Prints",
+    "title": "Prints",
+    "description": "Museum-quality prints on archival paper, available in multiple sizes with optional framing."
+  },
+  "originals": {
+    "eyebrow": "Originals",
+    "title": "Original Artworks",
+    "description": "One-of-a-kind paintings, each sold as a single original piece. Once sold, a work is not reproduced as an original again."
+  },
+  "catalog": {
+    "medium": "Medium",
+    "allMediums": "All Mediums",
+    "sort": "Sort",
+    "featured": "Featured",
+    "priceLowHigh": "Price: Low to High",
+    "priceHighLow": "Price: High to Low",
+    "resultOne": "artwork",
+    "resultMany": "artworks",
+    "empty": "No artworks match these filters yet."
+  },
+  "artwork": {
+    "sold": "Sold",
+    "outOfStock": "Out of Stock",
+    "outOfStockOption": "(Out of stock)",
+    "from": "from",
+    "price": "Price",
+    "size": "Size",
+    "frame": "Frame",
+    "dimensions": "Dimensions",
+    "year": "Year",
+    "medium": "Medium",
+    "materials": "Materials",
+    "estimatedDelivery": "Estimated delivery",
+    "youMayAlsoLike": "You May Also Like"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "emptyBody": "Browse the collection and find something to bring home.",
+    "originalArtwork": "Original artwork",
+    "subtotal": "Subtotal",
+    "shippingNote": "Shipping and taxes calculated at checkout."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Get in Touch",
+    "body": "Questions about a piece, custom commissions, or press inquiries — send a note and we'll reply soon.",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending…",
+    "sent": "Thank you — your message has been sent. We'll be in touch soon."
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "About the Studio",
+    "body1": "The studio produces original paintings and fine art prints, each made entirely by hand.",
+    "body2": "Originals are sold individually and are not reissued once sold. Prints are made to order on archival paper and shipped worldwide.",
+    "contactCta": "Get in Touch"
   }
 }
