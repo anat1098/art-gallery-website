@@ -2,6 +2,8 @@ import { prisma } from "@/server/db/client";
 
 // TEMPORARY diagnostic route — remove after debugging the production
 // database connection. Reports the raw error instead of a generic message.
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const result = await prisma.$queryRaw`SELECT 1 as ok`;
