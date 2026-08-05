@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { profileSchema, type ProfileInput } from "@/lib/validation/profile";
 import { updateProfile } from "@/server/actions/profile";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function ProfileForm({
   name,
@@ -18,6 +19,7 @@ export function ProfileForm({
   email: string;
   phone: string;
 }) {
+  const { t } = useLocale();
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -46,7 +48,7 @@ export function ProfileForm({
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md space-y-5" noValidate>
       <div>
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">{t.auth.name}</Label>
         <Input id="name" className="mt-2" {...form.register("name")} />
         {form.formState.errors.name && (
           <p className="mt-1 text-xs text-destructive">
@@ -55,14 +57,14 @@ export function ProfileForm({
         )}
       </div>
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t.auth.email}</Label>
         <Input id="email" value={email} disabled className="mt-2" />
         <p className="mt-1 text-xs text-muted-foreground">
-          Contact support to change your email address.
+          {t.account.changeEmailNote}
         </p>
       </div>
       <div>
-        <Label htmlFor="phone">Phone</Label>
+        <Label htmlFor="phone">{t.account.phone}</Label>
         <Input id="phone" className="mt-2" {...form.register("phone")} />
       </div>
 
@@ -70,11 +72,11 @@ export function ProfileForm({
         <p className="text-sm text-destructive">{error}</p>
       )}
       {status === "saved" && (
-        <p className="text-sm text-brand">Profile updated.</p>
+        <p className="text-sm text-brand">{t.account.profileUpdated}</p>
       )}
 
       <Button type="submit" className="rounded-none" disabled={submitting}>
-        {submitting ? "Saving…" : "Save Changes"}
+        {submitting ? t.auth.saving : t.account.saveChanges}
       </Button>
     </form>
   );

@@ -5,8 +5,10 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
   const isAccountRoute = pathname.startsWith("/account");
   const isAdminRoute = pathname.startsWith("/admin");
+  const isCartRoute = pathname.startsWith("/cart");
+  const isCheckoutRoute = pathname.startsWith("/checkout");
 
-  if ((isAccountRoute || isAdminRoute) && !req.auth) {
+  if ((isAccountRoute || isAdminRoute || isCartRoute || isCheckoutRoute) && !req.auth) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
@@ -18,5 +20,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/account/:path*", "/admin/:path*"],
+  matcher: ["/account/:path*", "/admin/:path*", "/cart/:path*", "/checkout/:path*"],
 };

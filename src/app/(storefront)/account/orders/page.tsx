@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { auth } from "@/server/auth";
 import { prisma } from "@/server/db/client";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/format";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "My Orders",
 };
 
-const statusLabels: Record<string, string> = {
-  PENDING: "Pending",
-  PAID: "Paid",
-  PREPARING: "Preparing",
-  PRINTED: "Printed",
-  PACKED: "Packed",
-  SHIPPED: "Shipped",
-  DELIVERED: "Delivered",
-  CANCELLED: "Cancelled",
-  REFUNDED: "Refunded",
-};
-
 export default async function OrdersPage() {
   const session = await auth();
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale];
 
   let orders: Awaited<ReturnType<typeof prisma.order.findMany>> = [];
   let loadError: string | null = null;
@@ -33,22 +28,20 @@ export default async function OrdersPage() {
         orderBy: { createdAt: "desc" },
       });
     } catch {
-      loadError = "We couldn't load your orders right now. Please try again shortly.";
+      loadError = t.account.loadOrdersError;
     }
   }
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-14 lg:px-10 lg:py-20">
-      <h1>My Orders</h1>
+      <h1>{t.account.myOrders}</h1>
 
       {loadError && (
         <p className="mt-6 text-sm text-destructive">{loadError}</p>
       )}
 
       {!loadError && orders.length === 0 && (
-        <p className="mt-6 text-muted-foreground">
-          You haven&apos;t placed any orders yet.
-        </p>
+        <p className="mt-6 text-muted-foreground">{t.account.noOrders}</p>
       )}
 
       {orders.length > 0 && (
@@ -65,13 +58,13 @@ export default async function OrdersPage() {
                 </p>
                 {order.trackingNumber && (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Tracking: {order.trackingNumber}
+                    {t.account.tracking}: {order.trackingNumber}
                   </p>
                 )}
               </div>
               <div className="flex items-center gap-4">
                 <Badge variant="outline">
-                  {statusLabels[order.status] ?? order.status}
+                  {t.orderStatus[order.status as keyof typeof t.orderStatus] ?? order.status}
                 </Badge>
                 <p>{formatPrice(Number(order.total), order.currency)}</p>
               </div>

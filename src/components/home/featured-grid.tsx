@@ -38,7 +38,7 @@ export function FeaturedGrid({ variant, artworks, viewAllHref }: FeaturedGridPro
       </div>
 
       <motion.div
-        className="mt-10 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 lg:grid-cols-4"
+        className="mt-10 grid grid-cols-1 gap-y-14 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-14 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-12"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}

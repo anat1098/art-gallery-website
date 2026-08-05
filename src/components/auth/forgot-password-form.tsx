@@ -11,8 +11,10 @@ import {
   type ForgotPasswordInput,
 } from "@/lib/validation/auth";
 import { requestPasswordReset } from "@/server/actions/auth";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function ForgotPasswordForm() {
+  const { t } = useLocale();
   const [status, setStatus] = useState<"idle" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -38,18 +40,13 @@ export function ForgotPasswordForm() {
   }
 
   if (status === "sent") {
-    return (
-      <p className="text-muted-foreground">
-        If an account exists for that email, a password reset link is on its
-        way.
-      </p>
-    );
+    return <p className="text-muted-foreground">{t.auth.resetLinkSent}</p>;
   }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t.auth.email}</Label>
         <Input id="email" type="email" className="mt-2" {...form.register("email")} />
         {form.formState.errors.email && (
           <p className="mt-1 text-xs text-destructive">
@@ -63,7 +60,7 @@ export function ForgotPasswordForm() {
       )}
 
       <Button type="submit" size="lg" className="w-full rounded-none" disabled={submitting}>
-        {submitting ? "Sending…" : "Send Reset Link"}
+        {submitting ? t.auth.sending : t.auth.sendResetLink}
       </Button>
     </form>
   );

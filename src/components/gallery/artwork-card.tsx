@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { useCartStore } from "@/hooks/use-cart-store";
+import { useRequireAuth } from "@/hooks/use-require-auth";
 import type { ArtworkCardData } from "@/types/artwork";
 
 const imageVariants = {
@@ -23,12 +24,14 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
   const { format } = useCurrency();
   const { t } = useLocale();
   const addLine = useCartStore((s) => s.addLine);
+  const { requireAuth } = useRequireAuth();
   const href = `/${artwork.type === "PRINT" ? "prints" : "originals"}/${artwork.slug}`;
 
   function handleQuickAdd(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (artwork.isSold) return;
+    if (!requireAuth()) return;
 
     const isPrint = artwork.type === "PRINT";
     const id = isPrint
@@ -49,7 +52,7 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
   return (
     <Link href={href} className="group block">
       <motion.div
-        className="relative aspect-square overflow-hidden bg-muted sm:aspect-[4/5]"
+        className="relative aspect-square overflow-hidden bg-muted"
         whileHover="hover"
         initial="rest"
       >
@@ -76,7 +79,7 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
             <button
               type="button"
               onClick={handleQuickAdd}
-              className="w-full bg-background/95 py-2.5 text-[11px] font-medium tracking-[0.15em] text-foreground uppercase shadow-sm transition-colors hover:bg-background"
+              className="w-full border border-foreground bg-background/95 py-2.5 text-[11px] font-medium tracking-[0.15em] text-foreground uppercase transition-colors hover:bg-foreground hover:text-background"
             >
               {t.common.addToCart}
             </button>

@@ -49,10 +49,10 @@ export default async function AdminCustomersPage() {
       {customers.length > 0 && (
         <div className="mt-8 divide-y divide-border border-y border-border">
           {customers.map((c) => (
-            <div key={c.id} className="flex items-center justify-between gap-4 py-4">
-              <div>
+            <div key={c.id} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-4">
+              <div className="min-w-0">
                 <p className="text-sm">{c.name ?? "—"}</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs break-all text-muted-foreground">
                   {c.email} · Joined {c.createdAt.toLocaleDateString()} ·{" "}
                   {c._count.orders} order{c._count.orders === 1 ? "" : "s"}
                 </p>

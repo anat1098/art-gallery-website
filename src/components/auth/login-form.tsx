@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema, type LoginInput } from "@/lib/validation/auth";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useLocale();
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -33,7 +35,7 @@ export function LoginForm() {
       });
 
       if (result?.error) {
-        setServerError("Incorrect email or password.");
+        setServerError(t.auth.incorrectCredentials);
         return;
       }
 
@@ -48,7 +50,7 @@ export function LoginForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <div>
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t.auth.email}</Label>
         <Input id="email" type="email" className="mt-2" {...form.register("email")} />
         {form.formState.errors.email && (
           <p className="mt-1 text-xs text-destructive">
@@ -58,12 +60,12 @@ export function LoginForm() {
       </div>
       <div>
         <div className="flex items-center justify-between">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t.auth.password}</Label>
           <Link
             href="/forgot-password"
             className="text-xs text-muted-foreground underline underline-offset-4"
           >
-            Forgot password?
+            {t.auth.forgotPassword}
           </Link>
         </div>
         <Input id="password" type="password" className="mt-2" {...form.register("password")} />
@@ -77,13 +79,13 @@ export function LoginForm() {
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
 
       <Button type="submit" size="lg" className="w-full rounded-none" disabled={submitting}>
-        {submitting ? "Logging In…" : "Log In"}
+        {submitting ? t.auth.loggingIn : t.auth.login}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
+        {t.auth.noAccount}{" "}
         <Link href="/register" className="text-foreground underline underline-offset-4">
-          Create one
+          {t.auth.createOne}
         </Link>
       </p>
     </form>

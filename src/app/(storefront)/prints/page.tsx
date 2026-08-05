@@ -5,6 +5,7 @@ import { CatalogGrid } from "@/components/gallery/catalog-grid";
 import { allPrints, printMediums, toCard } from "@/lib/constants/placeholder-artworks";
 import { dictionaries } from "@/i18n/dictionaries";
 import { isLocale, defaultLocale } from "@/i18n/config";
+import { getSiteContent, resolveContent } from "@/server/services/get-site-content";
 
 export const metadata: Metadata = {
   title: "Prints",
@@ -21,6 +22,13 @@ export default async function PrintsPage({ searchParams }: PrintsPageProps) {
   const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
   const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
   const t = dictionaries[locale];
+  const content = await getSiteContent();
+  const description = resolveContent(
+    locale,
+    content.printsSubheadingEn,
+    content.printsSubheadingHe,
+    t.prints.description
+  );
 
   let artworks = allPrints;
   if (medium) {
@@ -40,7 +48,7 @@ export default async function PrintsPage({ searchParams }: PrintsPageProps) {
           {t.prints.eyebrow}
         </p>
         <h1 className="mt-3">{t.prints.title}</h1>
-        <p className="mt-4 text-muted-foreground">{t.prints.description}</p>
+        <p className="mt-4 text-muted-foreground">{description}</p>
       </div>
 
       <div className="mt-10">

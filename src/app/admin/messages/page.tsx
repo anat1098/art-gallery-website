@@ -34,8 +34,8 @@ export default async function AdminMessagesPage() {
         <div className="mt-8 divide-y divide-border border-y border-border">
           {messages.map((m) => (
             <div key={m.id} className="py-4">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-sm">
+              <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                <p className="min-w-0 text-sm break-all">
                   <span className="font-medium">{m.name}</span>{" "}
                   <span className="text-muted-foreground">
                     &lt;{m.email}&gt; · {m.createdAt.toLocaleDateString()}

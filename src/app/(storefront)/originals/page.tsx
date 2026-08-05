@@ -5,6 +5,7 @@ import { CatalogGrid } from "@/components/gallery/catalog-grid";
 import { allOriginals, toCard } from "@/lib/constants/placeholder-artworks";
 import { dictionaries } from "@/i18n/dictionaries";
 import { isLocale, defaultLocale } from "@/i18n/config";
+import { getSiteContent, resolveContent } from "@/server/services/get-site-content";
 
 export const metadata: Metadata = {
   title: "Originals",
@@ -21,6 +22,13 @@ export default async function OriginalsPage({ searchParams }: OriginalsPageProps
   const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
   const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
   const t = dictionaries[locale];
+  const content = await getSiteContent();
+  const description = resolveContent(
+    locale,
+    content.originalsSubheadingEn,
+    content.originalsSubheadingHe,
+    t.originals.description
+  );
 
   const sorted = [...allOriginals].sort((a, b) => {
     if (sort === "price-asc") return a.price - b.price;
@@ -35,7 +43,7 @@ export default async function OriginalsPage({ searchParams }: OriginalsPageProps
           {t.originals.eyebrow}
         </p>
         <h1 className="mt-3">{t.originals.title}</h1>
-        <p className="mt-4 text-muted-foreground">{t.originals.description}</p>
+        <p className="mt-4 text-muted-foreground">{description}</p>
       </div>
 
       <div className="mt-10">

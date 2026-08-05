@@ -34,6 +34,19 @@ const buttonVariants = cva(
         "icon-lg": "size-9",
       },
     },
+    compoundVariants: [
+      {
+        variant: "outline",
+        size: "lg",
+        class:
+          "border-foreground hover:bg-foreground hover:text-background dark:border-foreground dark:hover:bg-foreground dark:hover:text-background",
+      },
+      {
+        variant: "default",
+        size: "lg",
+        class: "hover:bg-foreground/85",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",

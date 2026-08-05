@@ -12,9 +12,11 @@ import {
   type ResetPasswordInput,
 } from "@/lib/validation/auth";
 import { resetPassword } from "@/server/actions/auth";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function ResetPasswordForm({ token }: { token: string }) {
   const router = useRouter();
+  const { t } = useLocale();
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -41,7 +43,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <div>
-        <Label htmlFor="password">New Password</Label>
+        <Label htmlFor="password">{t.auth.newPassword}</Label>
         <Input id="password" type="password" className="mt-2" {...form.register("password")} />
         {form.formState.errors.password && (
           <p className="mt-1 text-xs text-destructive">
@@ -50,7 +52,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
         )}
       </div>
       <div>
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
+        <Label htmlFor="confirmPassword">{t.auth.confirmPassword}</Label>
         <Input
           id="confirmPassword"
           type="password"
@@ -67,7 +69,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
       {serverError && <p className="text-sm text-destructive">{serverError}</p>}
 
       <Button type="submit" size="lg" className="w-full rounded-none" disabled={submitting}>
-        {submitting ? "Saving…" : "Set New Password"}
+        {submitting ? t.auth.saving : t.auth.setNewPassword}
       </Button>
     </form>
   );

@@ -11,7 +11,7 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 py-10 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:py-14">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -21,11 +21,11 @@ export function Hero() {
           <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
             {t.home.eyebrow}
           </p>
-          <h1 className="mt-4">{t.home.heroTitle}</h1>
-          <p className="mt-6 max-w-md text-base text-muted-foreground">
+          <h1 className="mt-3">{t.home.heroTitle}</h1>
+          <p className="mt-4 max-w-md text-base text-muted-foreground">
             {t.home.heroSubtitle}
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap gap-4">
             <Button size="lg" className="rounded-none px-8" asChild>
               <Link href="/prints">{t.common.shopPrints}</Link>
             </Button>
@@ -46,7 +46,7 @@ export function Hero() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="order-1 lg:order-2"
         >
-          <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <div className="relative aspect-square w-full max-w-md overflow-hidden lg:max-w-none">
             <ArtworkPlaceholder seed="hero" className="h-full w-full" />
           </div>
         </motion.div>

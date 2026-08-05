@@ -12,10 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function AccountMenu() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { t } = useLocale();
 
   return (
     <DropdownMenu>
@@ -28,11 +30,16 @@ export function AccountMenu() {
         {status === "authenticated" ? (
           <>
             <DropdownMenuItem asChild>
-              <Link href="/account">My Account</Link>
+              <Link href="/account">{t.account.myAccount}</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/account/orders">Orders</Link>
+              <Link href="/account/orders">{t.account.orders}</Link>
             </DropdownMenuItem>
+            {session?.user.role === "ADMIN" && (
+              <DropdownMenuItem asChild>
+                <Link href="/admin">{t.account.adminPanel}</Link>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={async () => {
@@ -41,16 +48,16 @@ export function AccountMenu() {
                 router.refresh();
               }}
             >
-              Log Out
+              {t.account.logOut}
             </DropdownMenuItem>
           </>
         ) : (
           <>
             <DropdownMenuItem asChild>
-              <Link href="/login">Login</Link>
+              <Link href="/login">{t.account.login}</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/register">Register</Link>
+              <Link href="/register">{t.account.registerNav}</Link>
             </DropdownMenuItem>
           </>
         )}

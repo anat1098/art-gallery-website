@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { Hero } from "@/components/home/hero";
 import { FeaturedGrid } from "@/components/home/featured-grid";
 import { AboutTeaser } from "@/components/home/about-teaser";
@@ -6,8 +7,23 @@ import {
   featuredPrints,
   featuredOriginals,
 } from "@/lib/constants/placeholder-artworks";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
+import { getSiteContent, resolveContent } from "@/server/services/get-site-content";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale];
+  const content = await getSiteContent();
+  const aboutBody = resolveContent(
+    locale,
+    content.homeAboutBodyEn,
+    content.homeAboutBodyHe,
+    t.home.aboutBody
+  );
+
   return (
     <>
       <Hero />
@@ -17,7 +33,7 @@ export default function Home() {
         artworks={featuredOriginals}
         viewAllHref="/originals"
       />
-      <AboutTeaser />
+      <AboutTeaser bodyOverride={aboutBody} />
       <NewsletterSection />
     </>
   );

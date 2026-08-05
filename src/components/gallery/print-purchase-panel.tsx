@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCartStore } from "@/hooks/use-cart-store";
+import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { ArtworkDetailData } from "@/types/artwork";
@@ -20,6 +21,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
   const frames = artwork.frameOptions ?? [];
   const router = useRouter();
   const addLine = useCartStore((s) => s.addLine);
+  const { requireAuth } = useRequireAuth();
   const { format } = useCurrency();
   const { t } = useLocale();
 
@@ -51,10 +53,12 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
   }
 
   function handleAddToCart() {
+    if (!requireAuth()) return;
     addLine(buildLine());
   }
 
   function handleBuyNow() {
+    if (!requireAuth()) return;
     addLine(buildLine());
     router.push("/cart");
   }

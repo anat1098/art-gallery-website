@@ -20,7 +20,7 @@ export default async function AdminNewsletterPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="font-display text-2xl">Newsletter</h1>
         <Button variant="outline" className="rounded-none" asChild>
           <a href="/admin/newsletter/export">Export CSV</a>
@@ -40,8 +40,8 @@ export default async function AdminNewsletterPage() {
       {subscribers.length > 0 && (
         <div className="mt-6 divide-y divide-border border-y border-border">
           {subscribers.map((s) => (
-            <div key={s.id} className="flex justify-between py-3 text-sm">
-              <span>{s.email}</span>
+            <div key={s.id} className="flex flex-wrap justify-between gap-x-4 gap-y-1 py-3 text-sm">
+              <span className="min-w-0 break-all">{s.email}</span>
               <span className="text-muted-foreground">
                 {s.createdAt.toLocaleDateString()}
               </span>

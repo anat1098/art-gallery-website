@@ -21,6 +21,7 @@ import { checkoutSchema, type CheckoutInput } from "@/lib/validation/checkout";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { placeOrder } from "@/server/actions/order";
+import { useLocale } from "@/components/providers/locale-provider";
 import type { PaymentProviderId } from "@/types/payment";
 
 const paymentOptions: { id: PaymentProviderId; label: string; available: boolean }[] = [
@@ -36,6 +37,7 @@ export function CheckoutClient() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const { format } = useCurrency();
+  const { t } = useLocale();
 
   const form = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
@@ -92,12 +94,10 @@ export function CheckoutClient() {
   if (lines.length === 0) {
     return (
       <div className="mx-auto max-w-xl px-6 py-24 text-center lg:px-10">
-        <h1>Nothing to check out</h1>
-        <p className="mt-4 text-muted-foreground">
-          Your cart is empty. Add something from the collection first.
-        </p>
+        <h1>{t.checkout.nothingToCheckOut}</h1>
+        <p className="mt-4 text-muted-foreground">{t.checkout.emptyCartBody}</p>
         <Button size="lg" className="mt-8 rounded-none px-8" asChild>
-          <Link href="/prints">Shop Prints</Link>
+          <Link href="/prints">{t.common.shopPrints}</Link>
         </Button>
       </div>
     );
@@ -106,12 +106,12 @@ export function CheckoutClient() {
   return (
     <div className="mx-auto grid max-w-6xl gap-12 px-6 py-14 lg:grid-cols-[1.3fr_1fr] lg:gap-16 lg:px-10 lg:py-20">
       <div>
-        <h1>Checkout</h1>
+        <h1>{t.checkout.title}</h1>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-8" noValidate>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="firstName">First Name</Label>
+              <Label htmlFor="firstName">{t.checkout.firstName}</Label>
               <Input id="firstName" className="mt-2" {...form.register("firstName")} />
               {form.formState.errors.firstName && (
                 <p className="mt-1 text-xs text-destructive">
@@ -120,7 +120,7 @@ export function CheckoutClient() {
               )}
             </div>
             <div>
-              <Label htmlFor="lastName">Last Name</Label>
+              <Label htmlFor="lastName">{t.checkout.lastName}</Label>
               <Input id="lastName" className="mt-2" {...form.register("lastName")} />
               {form.formState.errors.lastName && (
                 <p className="mt-1 text-xs text-destructive">
@@ -129,7 +129,7 @@ export function CheckoutClient() {
               )}
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t.auth.email}</Label>
               <Input id="email" type="email" className="mt-2" {...form.register("email")} />
               {form.formState.errors.email && (
                 <p className="mt-1 text-xs text-destructive">
@@ -138,7 +138,7 @@ export function CheckoutClient() {
               )}
             </div>
             <div>
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone">{t.checkout.phoneNumber}</Label>
               <Input id="phone" type="tel" className="mt-2" {...form.register("phone")} />
               {form.formState.errors.phone && (
                 <p className="mt-1 text-xs text-destructive">
@@ -148,7 +148,7 @@ export function CheckoutClient() {
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="country">Country</Label>
+              <Label htmlFor="country">{t.checkout.country}</Label>
               <Select
                 value={form.watch("country")}
                 onValueChange={(v) =>
@@ -156,7 +156,7 @@ export function CheckoutClient() {
                 }
               >
                 <SelectTrigger id="country" className="mt-2 w-full rounded-none">
-                  <SelectValue placeholder="Select a country" />
+                  <SelectValue placeholder={t.checkout.selectCountry} />
                 </SelectTrigger>
                 <SelectContent>
                   {countries.map((c) => (
@@ -174,7 +174,7 @@ export function CheckoutClient() {
             </div>
 
             <div>
-              <Label htmlFor="city">City</Label>
+              <Label htmlFor="city">{t.checkout.city}</Label>
               <Input id="city" className="mt-2" {...form.register("city")} />
               {form.formState.errors.city && (
                 <p className="mt-1 text-xs text-destructive">
@@ -183,7 +183,7 @@ export function CheckoutClient() {
               )}
             </div>
             <div>
-              <Label htmlFor="postalCode">Postal Code</Label>
+              <Label htmlFor="postalCode">{t.checkout.postalCode}</Label>
               <Input id="postalCode" className="mt-2" {...form.register("postalCode")} />
               {form.formState.errors.postalCode && (
                 <p className="mt-1 text-xs text-destructive">
@@ -192,7 +192,7 @@ export function CheckoutClient() {
               )}
             </div>
             <div className="col-span-2">
-              <Label htmlFor="street">Street Address</Label>
+              <Label htmlFor="street">{t.checkout.streetAddress}</Label>
               <Input id="street" className="mt-2" {...form.register("street")} />
               {form.formState.errors.street && (
                 <p className="mt-1 text-xs text-destructive">
@@ -202,18 +202,18 @@ export function CheckoutClient() {
             </div>
 
             <div className="col-span-2">
-              <Label htmlFor="shippingNotes">Shipping Notes (optional)</Label>
+              <Label htmlFor="shippingNotes">{t.checkout.shippingNotes}</Label>
               <Textarea id="shippingNotes" className="mt-2" rows={2} {...form.register("shippingNotes")} />
             </div>
             <div className="col-span-2">
-              <Label htmlFor="orderNotes">Order Notes (optional)</Label>
+              <Label htmlFor="orderNotes">{t.checkout.orderNotes}</Label>
               <Textarea id="orderNotes" className="mt-2" rows={2} {...form.register("orderNotes")} />
             </div>
           </div>
 
           <div>
             <p className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-              Payment Method
+              {t.checkout.paymentMethod}
             </p>
             <RadioGroup
               value={paymentProvider}
@@ -231,8 +231,8 @@ export function CheckoutClient() {
                   <span className="text-sm">
                     {opt.label}
                     {!opt.available && (
-                      <span className="ml-2 text-xs text-muted-foreground">
-                        Coming soon
+                      <span className="ms-2 text-xs text-muted-foreground">
+                        {t.checkout.comingSoon}
                       </span>
                     )}
                   </span>
@@ -251,13 +251,15 @@ export function CheckoutClient() {
             className="w-full rounded-none"
             disabled={submitting}
           >
-            {submitting ? "Placing Order…" : `Place Order — ${format(total)}`}
+            {submitting
+              ? t.checkout.placingOrder
+              : `${t.checkout.placeOrder} — ${format(total)}`}
           </Button>
         </form>
       </div>
 
       <div className="h-fit rounded-sm border border-border p-6 lg:sticky lg:top-28">
-        <h2 className="text-xl">Order Summary</h2>
+        <h2 className="text-xl">{t.checkout.orderSummary}</h2>
         <div className="mt-6 space-y-4 divide-y divide-border">
           {lines.map((line) => (
             <div key={line.id} className="flex justify-between gap-4 pt-4 first:pt-0">
@@ -265,8 +267,8 @@ export function CheckoutClient() {
                 <p className="text-sm">{line.title}</p>
                 <p className="text-xs text-muted-foreground">
                   {[line.sizeLabel, line.frameLabel].filter(Boolean).join(" · ") ||
-                    "Original artwork"}{" "}
-                  · Qty {line.quantity}
+                    t.cart.originalArtwork}{" "}
+                  · {t.checkout.qty} {line.quantity}
                 </p>
               </div>
               <p className="whitespace-nowrap text-sm">
@@ -278,23 +280,23 @@ export function CheckoutClient() {
 
         <div className="mt-6 space-y-2 border-t border-border pt-6 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Subtotal</span>
+            <span className="text-muted-foreground">{t.checkout.subtotal}</span>
             <span>{format(subtotal)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Shipping</span>
+            <span className="text-muted-foreground">{t.checkout.shipping}</span>
             <span>
-              {shippingRule ? format(shippingCost) : "Select a country"}
+              {shippingRule ? format(shippingCost) : t.checkout.selectCountryShort}
             </span>
           </div>
           {shippingRule && (
             <p className="text-xs text-muted-foreground">
-              Estimated delivery: {shippingRule.estimatedDaysMin}–
-              {shippingRule.estimatedDaysMax} business days
+              {t.checkout.estimatedDelivery}: {shippingRule.estimatedDaysMin}–
+              {shippingRule.estimatedDaysMax} {t.checkout.businessDays}
             </p>
           )}
           <div className="flex justify-between border-t border-border pt-4 text-base">
-            <span>Total</span>
+            <span>{t.checkout.total}</span>
             <span>{format(total)}</span>
           </div>
         </div>

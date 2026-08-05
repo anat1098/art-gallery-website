@@ -6,7 +6,7 @@ import { ArtworkPlaceholder } from "@/components/shared/artwork-placeholder";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/components/providers/locale-provider";
 
-export function AboutTeaser() {
+export function AboutTeaser({ bodyOverride }: { bodyOverride?: string }) {
   const { t } = useLocale();
 
   return (
@@ -33,7 +33,7 @@ export function AboutTeaser() {
           </p>
           <h2 className="mt-3">{t.home.aboutTitle}</h2>
           <p className="mt-6 max-w-md text-base text-muted-foreground">
-            {t.home.aboutBody}
+            {bodyOverride || t.home.aboutBody}
           </p>
           <Button
             variant="outline"

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/hooks/use-cart-store";
+import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { ArtworkDetailData } from "@/types/artwork";
@@ -11,6 +12,7 @@ import type { ArtworkDetailData } from "@/types/artwork";
 export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) {
   const router = useRouter();
   const addLine = useCartStore((s) => s.addLine);
+  const { requireAuth } = useRequireAuth();
   const { format } = useCurrency();
   const { t } = useLocale();
 
@@ -25,10 +27,12 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
   }
 
   function handleAddToCart() {
+    if (!requireAuth()) return;
     addLine(buildLine());
   }
 
   function handleBuyNow() {
+    if (!requireAuth()) return;
     addLine(buildLine());
     router.push("/cart");
   }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Fraunces, Manrope, Frank_Ruhl_Libre, Assistant } from "next/font/google";
+import { Cormorant_Garamond, Inter, Frank_Ruhl_Libre, Heebo } from "next/font/google";
 import { AuthSessionProvider } from "@/components/providers/session-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { CurrencyProvider } from "@/components/providers/currency-provider";
@@ -8,13 +8,13 @@ import { isLocale, defaultLocale } from "@/i18n/config";
 import { isCurrencyCode, defaultCurrency } from "@/lib/currency";
 import "./globals.css";
 
-const displaySans = Fraunces({
+const displaySans = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["400", "500", "600"],
 });
 
-const bodySans = Manrope({
+const bodySans = Inter({
   variable: "--font-body",
   subsets: ["latin"],
 });
@@ -25,7 +25,7 @@ const displayHe = Frank_Ruhl_Libre({
   weight: ["400", "500", "700"],
 });
 
-const bodyHe = Assistant({
+const bodyHe = Heebo({
   variable: "--font-body-he",
   subsets: ["hebrew"],
 });

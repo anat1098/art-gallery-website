@@ -122,12 +122,12 @@ export function TaxonomyManager({
           </p>
         )}
         {items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between py-3">
-            <div>
-              <p className="text-sm">{item.name}</p>
-              <p className="text-xs text-muted-foreground">/{item.slug}</p>
+          <div key={item.id} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3">
+            <div className="min-w-0">
+              <p className="text-sm break-words">{item.name}</p>
+              <p className="text-xs break-all text-muted-foreground">/{item.slug}</p>
             </div>
-            <div className="flex gap-3 text-sm">
+            <div className="flex shrink-0 gap-3 text-sm">
               <button
                 type="button"
                 className="underline underline-offset-4"

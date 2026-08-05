@@ -5,6 +5,7 @@ import { ArtworkPlaceholder } from "@/components/shared/artwork-placeholder";
 import { Button } from "@/components/ui/button";
 import { dictionaries } from "@/i18n/dictionaries";
 import { isLocale, defaultLocale } from "@/i18n/config";
+import { getSiteContent, resolveContent } from "@/server/services/get-site-content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -15,6 +16,9 @@ export default async function AboutPage() {
   const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
   const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
   const t = dictionaries[locale];
+  const content = await getSiteContent();
+  const body1 = resolveContent(locale, content.aboutBody1En, content.aboutBody1He, t.about.body1);
+  const body2 = resolveContent(locale, content.aboutBody2En, content.aboutBody2He, t.about.body2);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-14 lg:px-10 lg:py-20">
@@ -31,8 +35,8 @@ export default async function AboutPage() {
         </div>
 
         <div className="space-y-6 text-muted-foreground">
-          <p>{t.about.body1}</p>
-          <p>{t.about.body2}</p>
+          <p>{body1}</p>
+          <p>{body2}</p>
           <Button variant="outline" size="lg" className="rounded-none px-8" asChild>
             <Link href="/contact">{t.about.contactCta}</Link>
           </Button>
