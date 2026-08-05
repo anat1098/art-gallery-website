@@ -11,7 +11,7 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 py-10 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:py-14">
+      <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 py-10 lg:grid-cols-2 lg:items-start lg:gap-14 lg:px-10 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export function Hero() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="order-1 lg:order-2"
         >
-          <div className="relative aspect-square w-full max-w-md overflow-hidden lg:max-w-none">
+          <div className="relative aspect-square max-h-[70vh] w-full max-w-md overflow-hidden lg:aspect-[4/5] lg:max-w-none">
             <ArtworkPlaceholder seed="hero" className="h-full w-full" />
           </div>
         </motion.div>

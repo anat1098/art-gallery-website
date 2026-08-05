@@ -23,6 +23,12 @@ export default async function Home() {
     content.homeAboutBodyHe,
     t.home.aboutBody
   );
+  const newsletterBody = resolveContent(
+    locale,
+    content.newsletterBodyEn,
+    content.newsletterBodyHe,
+    t.home.newsletterBody
+  );
 
   return (
     <>
@@ -34,7 +40,7 @@ export default async function Home() {
         viewAllHref="/originals"
       />
       <AboutTeaser bodyOverride={aboutBody} />
-      <NewsletterSection />
+      <NewsletterSection bodyOverride={newsletterBody} />
     </>
   );
 }

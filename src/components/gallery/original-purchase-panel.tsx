@@ -7,14 +7,21 @@ import { useCartStore } from "@/hooks/use-cart-store";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { useLocale } from "@/components/providers/locale-provider";
+import { localizeDetail } from "@/lib/localize-artwork";
 import type { ArtworkDetailData } from "@/types/artwork";
 
 export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) {
   const router = useRouter();
   const addLine = useCartStore((s) => s.addLine);
+  const cartQuantity = useCartStore(
+    (s) => s.lines.find((l) => l.id === artwork.id)?.quantity ?? 0
+  );
   const { requireAuth } = useRequireAuth();
   const { format } = useCurrency();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const { medium } = localizeDetail(artwork, locale);
+  const maxQuantity = artwork.inventory ?? 1;
+  const atMax = cartQuantity >= maxQuantity;
 
   function buildLine() {
     return {
@@ -23,6 +30,7 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
       title: artwork.title,
       unitPrice: artwork.price,
       quantity: 1,
+      maxQuantity,
     };
   }
 
@@ -65,22 +73,22 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
           </>
         )}
         <dt className="text-muted-foreground">{t.artwork.medium}</dt>
-        <dd>{artwork.medium}</dd>
+        <dd>{medium}</dd>
       </dl>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <Button
           size="lg"
           variant="outline"
-          className="flex-1 rounded-none"
-          disabled={artwork.isSold}
+          className="h-12 flex-1 rounded-none"
+          disabled={artwork.isSold || atMax}
           onClick={handleAddToCart}
         >
-          {artwork.isSold ? t.artwork.sold : t.common.addToCart}
+          {artwork.isSold ? t.artwork.sold : atMax ? t.common.inCart : t.common.addToCart}
         </Button>
         <Button
           size="lg"
-          className="flex-1 rounded-none"
+          className="h-12 flex-1 rounded-none"
           disabled={artwork.isSold}
           onClick={handleBuyNow}
         >

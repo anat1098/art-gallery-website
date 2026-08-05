@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,6 +52,7 @@ export function ArtworkForm({
       isNewArrival: false,
       isPublished: false,
       isSold: false,
+      inventory: 1,
       printSizes: [],
       frameOptions: [],
       ...defaultValues,
@@ -128,39 +130,59 @@ export function ArtworkForm({
 
         <div>
           <Label htmlFor="categoryId">Category</Label>
-          <Select
-            value={form.watch("categoryId") ?? ""}
-            onValueChange={(v) => form.setValue("categoryId", v)}
-          >
-            <SelectTrigger id="categoryId" className="mt-2 w-full rounded-none">
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((c) => (
-                <SelectItem key={c.id} value={c.id}>
-                  {c.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {categories.length === 0 ? (
+            <p className="mt-2 text-xs text-muted-foreground">
+              No categories yet.{" "}
+              <Link href="/admin/categories" className="underline underline-offset-4">
+                Add one first
+              </Link>
+              .
+            </p>
+          ) : (
+            <Select
+              value={form.watch("categoryId") ?? ""}
+              onValueChange={(v) => form.setValue("categoryId", v)}
+            >
+              <SelectTrigger id="categoryId" className="mt-2 w-full rounded-none">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((c) => (
+                  <SelectItem key={c.id} value={c.id}>
+                    {c.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
         <div>
           <Label htmlFor="mediumId">Medium</Label>
-          <Select
-            value={form.watch("mediumId") ?? ""}
-            onValueChange={(v) => form.setValue("mediumId", v)}
-          >
-            <SelectTrigger id="mediumId" className="mt-2 w-full rounded-none">
-              <SelectValue placeholder="Select a medium" />
-            </SelectTrigger>
-            <SelectContent>
-              {mediums.map((m) => (
-                <SelectItem key={m.id} value={m.id}>
-                  {m.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {mediums.length === 0 ? (
+            <p className="mt-2 text-xs text-muted-foreground">
+              No mediums yet.{" "}
+              <Link href="/admin/mediums" className="underline underline-offset-4">
+                Add one first
+              </Link>
+              .
+            </p>
+          ) : (
+            <Select
+              value={form.watch("mediumId") ?? ""}
+              onValueChange={(v) => form.setValue("mediumId", v)}
+            >
+              <SelectTrigger id="mediumId" className="mt-2 w-full rounded-none">
+                <SelectValue placeholder="Select a medium" />
+              </SelectTrigger>
+              <SelectContent>
+                {mediums.map((m) => (
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
       </div>
 
@@ -228,6 +250,24 @@ export function ArtworkForm({
                 className="mt-2"
                 {...form.register("originalHeightCm", { valueAsNumber: true })}
               />
+            </div>
+            <div>
+              <Label htmlFor="inventory">Available Quantity</Label>
+              <Input
+                id="inventory"
+                type="number"
+                min={0}
+                className="mt-2"
+                {...form.register("inventory", { valueAsNumber: true })}
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                How many copies of this original are available to sell (usually 1). Not shown to customers.
+              </p>
+              {form.formState.errors.inventory && (
+                <p className="mt-1 text-xs text-destructive">
+                  {form.formState.errors.inventory.message}
+                </p>
+              )}
             </div>
             <div className="sm:col-span-2">
               <Label htmlFor="shippingTimeNote">Shipping Note</Label>

@@ -13,12 +13,14 @@ import {
 } from "@/components/ui/dialog";
 import { allArtworks } from "@/lib/constants/placeholder-artworks";
 import { useCurrency } from "@/components/providers/currency-provider";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function SiteSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
   const { format } = useCurrency();
+  const { t } = useLocale();
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -77,7 +79,7 @@ export function SiteSearch() {
               <Search className="size-5 shrink-0 text-muted-foreground" />
               <Input
                 autoFocus
-                placeholder="Search by name, medium, or category…"
+                placeholder={t.common.searchPlaceholder}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="h-auto border-none bg-transparent p-0 text-lg shadow-none focus-visible:ring-0"
@@ -87,14 +89,14 @@ export function SiteSearch() {
                 onClick={() => setOpen(false)}
                 className="shrink-0 text-xs tracking-wide text-muted-foreground uppercase hover:text-foreground"
               >
-                Esc
+                {t.common.esc}
               </button>
             </div>
 
             <div className="max-h-[60vh] overflow-y-auto py-2">
               {query.trim() && results.length === 0 && (
                 <p className="py-10 text-center text-sm text-muted-foreground">
-                  No artworks found.
+                  {t.common.noResults}
                 </p>
               )}
               {results.map((a) => (

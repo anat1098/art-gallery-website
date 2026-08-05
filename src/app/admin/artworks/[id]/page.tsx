@@ -66,6 +66,7 @@ export default async function EditArtworkPage({ params }: EditArtworkPageProps) 
             isNewArrival: artwork.isNewArrival,
             isPublished: artwork.isPublished,
             isSold: artwork.isSold,
+            inventory: artwork.inventory,
             originalPrice: artwork.originalPrice
               ? Number(artwork.originalPrice)
               : undefined,

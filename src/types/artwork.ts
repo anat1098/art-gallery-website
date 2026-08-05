@@ -5,15 +5,20 @@ export type ArtworkCardData = {
   type: ArtworkType;
   slug: string;
   title: string;
+  titleHe?: string;
   medium: string;
+  mediumHe?: string;
   price: number;
   imageUrl: string;
   imageAlt: string;
   isSold?: boolean;
+  /** Available copies (originals only; prints use per-size inventory). Not shown publicly. */
+  inventory?: number;
   /** Default size/frame used for one-click "Add to Cart" from a grid card. */
   quickAdd?: {
     sizeId?: string;
     sizeLabel?: string;
+    sizeInventory?: number;
     frameId?: string;
     frameLabel?: string;
   };
@@ -44,8 +49,10 @@ export type FrameOptionData = {
 
 export type ArtworkDetailData = ArtworkCardData & {
   description: string;
+  descriptionHe?: string;
   materials?: string;
   categoryName: string;
+  categoryNameHe?: string;
   images: ArtworkImageData[];
   // Print-only
   printSizes?: PrintSizeData[];

@@ -57,8 +57,9 @@ export default function CartPage() {
                 <button
                   type="button"
                   aria-label="Increase quantity"
+                  disabled={line.maxQuantity !== undefined && line.quantity >= line.maxQuantity}
                   onClick={() => updateQuantity(line.id, line.quantity + 1)}
-                  className="flex size-7 items-center justify-center text-muted-foreground hover:text-foreground"
+                  className="flex size-7 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
                 >
                   <Plus className="size-3.5" />
                 </button>

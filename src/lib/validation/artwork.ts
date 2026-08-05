@@ -39,6 +39,7 @@ export const artworkSchema = z
     yearCreated: z.number().optional(),
     isSold: z.boolean().optional(),
     shippingTimeNote: z.string().optional(),
+    inventory: z.number().int().min(0, "Must be 0 or more").optional(),
 
     printSizes: z.array(printSizeSchema).optional(),
     frameOptions: z.array(frameOptionSchema).optional(),

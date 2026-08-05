@@ -156,6 +156,8 @@ model Artwork {
   yearCreated        Int?
   isSold             Boolean   @default(false)
   shippingTimeNote   String?
+  // Available copies for an original (customers can buy up to this many; not shown publicly)
+  inventory          Int       @default(1)
 
   // Print-only relations
   printSizes    PrintSize[]

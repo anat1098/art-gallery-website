@@ -23,6 +23,16 @@ const fields: { name: keyof SiteContentInput; label: string }[] = [
   { name: "aboutBody1He", label: "About Page — Paragraph 1 (Hebrew)" },
   { name: "aboutBody2En", label: "About Page — Paragraph 2 (English)" },
   { name: "aboutBody2He", label: "About Page — Paragraph 2 (Hebrew)" },
+  { name: "careInfoEn", label: "Product Page — Care Info (English)" },
+  { name: "careInfoHe", label: "Product Page — Care Info (Hebrew)" },
+  { name: "returnsPolicyEn", label: "Product Page — Returns & Refund Policy (English)" },
+  { name: "returnsPolicyHe", label: "Product Page — Returns & Refund Policy (Hebrew)" },
+  { name: "shippingInfoEn", label: "Product Page — Shipping (English)" },
+  { name: "shippingInfoHe", label: "Product Page — Shipping (Hebrew)" },
+  { name: "contactBodyEn", label: "Contact Page Text (English)" },
+  { name: "contactBodyHe", label: "Contact Page Text (Hebrew)" },
+  { name: "newsletterBodyEn", label: "Newsletter Section Text (English)" },
+  { name: "newsletterBodyHe", label: "Newsletter Section Text (Hebrew)" },
 ];
 
 export function ContentForm({ defaultValues }: { defaultValues: SiteContentInput }) {

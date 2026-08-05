@@ -9,6 +9,8 @@ export type CartLine = {
   frameLabel?: string;
   unitPrice: number;
   quantity: number;
+  /** Highest quantity purchasable for this line, based on available stock. */
+  maxQuantity?: number;
 };
 
 type CartState = {
@@ -33,21 +35,36 @@ export const useCartStore = create<CartState>()(
         set((state) => {
           const existing = state.lines.find((l) => l.id === line.id);
           if (existing) {
+            const max = existing.maxQuantity ?? line.maxQuantity;
+            const nextQuantity = existing.quantity + line.quantity;
             return {
               lines: state.lines.map((l) =>
                 l.id === line.id
-                  ? { ...l, quantity: l.quantity + line.quantity }
+                  ? {
+                      ...l,
+                      quantity: max ? Math.min(nextQuantity, max) : nextQuantity,
+                    }
                   : l
               ),
             };
           }
-          return { lines: [...state.lines, line] };
+          const max = line.maxQuantity;
+          return {
+            lines: [
+              ...state.lines,
+              { ...line, quantity: max ? Math.min(line.quantity, max) : line.quantity },
+            ],
+          };
         }),
       removeLine: (id) =>
         set((state) => ({ lines: state.lines.filter((l) => l.id !== id) })),
       updateQuantity: (id, quantity) =>
         set((state) => ({
-          lines: state.lines.map((l) => (l.id === id ? { ...l, quantity } : l)),
+          lines: state.lines.map((l) =>
+            l.id === id
+              ? { ...l, quantity: l.maxQuantity ? Math.min(quantity, l.maxQuantity) : quantity }
+              : l
+          ),
         })),
       clear: () => set({ lines: [] }),
     }),

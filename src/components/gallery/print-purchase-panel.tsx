@@ -49,6 +49,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
       frameLabel: selectedFrame?.label,
       unitPrice: totalPrice,
       quantity: 1,
+      maxQuantity: selectedSize?.inventory,
     };
   }
 
@@ -116,7 +117,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
         <Button
           size="lg"
           variant="outline"
-          className="flex-1 rounded-none"
+          className="h-12 flex-1 rounded-none"
           disabled={outOfStock}
           onClick={handleAddToCart}
         >
@@ -124,7 +125,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
         </Button>
         <Button
           size="lg"
-          className="flex-1 rounded-none"
+          className="h-12 flex-1 rounded-none"
           disabled={outOfStock}
           onClick={handleBuyNow}
         >

@@ -20,8 +20,11 @@ export async function updateSiteContent(input: Record<string, unknown>) {
     });
     revalidatePath("/");
     revalidatePath("/prints");
+    revalidatePath("/prints/[slug]", "page");
     revalidatePath("/originals");
+    revalidatePath("/originals/[slug]", "page");
     revalidatePath("/about");
+    revalidatePath("/contact");
     revalidatePath("/admin/settings");
     return { ok: true as const };
   } catch {

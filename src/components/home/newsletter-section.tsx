@@ -3,7 +3,7 @@
 import { NewsletterForm } from "@/components/home/newsletter-form";
 import { useLocale } from "@/components/providers/locale-provider";
 
-export function NewsletterSection() {
+export function NewsletterSection({ bodyOverride }: { bodyOverride?: string }) {
   const { t } = useLocale();
 
   return (
@@ -12,7 +12,7 @@ export function NewsletterSection() {
         {t.home.newsletterEyebrow}
       </p>
       <h2 className="mt-3">{t.home.newsletterTitle}</h2>
-      <p className="mt-4 text-muted-foreground">{t.home.newsletterBody}</p>
+      <p className="mt-4 text-muted-foreground">{bodyOverride || t.home.newsletterBody}</p>
       <div className="mx-auto mt-8 max-w-sm">
         <NewsletterForm />
       </div>

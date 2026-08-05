@@ -15,7 +15,11 @@
     "join": "Join",
     "yourEmail": "Your email",
     "continueShopping": "Continue Shopping",
-    "proceedToCheckout": "Proceed to Checkout"
+    "proceedToCheckout": "Proceed to Checkout",
+    "searchPlaceholder": "Search artwork",
+    "inCart": "In Cart",
+    "noResults": "No artworks found.",
+    "esc": "Esc"
   },
   "home": {
     "eyebrow": "Original Art & Fine Art Prints",
@@ -72,7 +76,14 @@
     "medium": "Medium",
     "materials": "Materials",
     "estimatedDelivery": "Estimated delivery",
-    "youMayAlsoLike": "You May Also Like"
+    "youMayAlsoLike": "You May Also Like",
+    "careInfoTitle": "Care Info",
+    "careInfoBody": "Keep prints and originals out of direct sunlight to preserve color over time. Dust gently with a dry, soft cloth — avoid glass cleaners or solvents on the surface. Framed pieces should be hung away from heat sources and areas of high humidity.",
+    "returnsTitle": "Returns & Refund Policy",
+    "returnsBody": "We want you to love your piece. If something isn't right, contact us within 14 days of delivery and we'll arrange a return or exchange. Items must be returned in their original, unused condition. Custom framing and made-to-order prints are final sale unless damaged in transit.",
+    "shippingTitle": "Shipping",
+    "shippingBody": "Prints ship rolled or flat in protective packaging within 5–9 business days. Original paintings ship in a custom-built crate and may take 10–14 business days to prepare. Tracking details are emailed as soon as your order leaves the studio.",
+    "aboutTitle": "About"
   },
   "cart": {
     "title": "Your Cart",

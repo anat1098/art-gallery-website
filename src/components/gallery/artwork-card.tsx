@@ -8,6 +8,7 @@ import { useCurrency } from "@/components/providers/currency-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { useCartStore } from "@/hooks/use-cart-store";
 import { useRequireAuth } from "@/hooks/use-require-auth";
+import { localizeCard } from "@/lib/localize-artwork";
 import type { ArtworkCardData } from "@/types/artwork";
 
 const imageVariants = {
@@ -22,10 +23,11 @@ const buttonVariants = {
 
 export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
   const { format } = useCurrency();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const addLine = useCartStore((s) => s.addLine);
   const { requireAuth } = useRequireAuth();
   const href = `/${artwork.type === "PRINT" ? "prints" : "originals"}/${artwork.slug}`;
+  const { title, medium } = localizeCard(artwork, locale);
 
   function handleQuickAdd(e: React.MouseEvent) {
     e.preventDefault();
@@ -46,13 +48,14 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
       frameLabel: artwork.quickAdd?.frameLabel,
       unitPrice: artwork.price,
       quantity: 1,
+      maxQuantity: isPrint ? artwork.quickAdd?.sizeInventory : artwork.inventory,
     });
   }
 
   return (
     <Link href={href} className="group block">
       <motion.div
-        className="relative aspect-square overflow-hidden bg-muted"
+        className="relative aspect-square overflow-hidden rounded-lg bg-muted"
         whileHover="hover"
         initial="rest"
       >
@@ -89,8 +92,8 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
 
       <div className="mt-4 flex items-baseline justify-between gap-2">
         <div>
-          <p className="font-display text-lg">&lsquo;{artwork.title}&rsquo;</p>
-          <p className="text-sm text-muted-foreground">{artwork.medium}</p>
+          <p className="font-display text-lg">&lsquo;{title}&rsquo;</p>
+          <p className="text-sm text-muted-foreground">{medium}</p>
         </div>
         <p className="whitespace-nowrap text-sm text-foreground/80">
           {artwork.type === "PRINT" ? `${t.artwork.from} ` : ""}

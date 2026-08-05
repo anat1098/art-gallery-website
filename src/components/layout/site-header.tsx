@@ -11,7 +11,6 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { mainNav } from "@/lib/constants/nav";
-import { siteSettings } from "@/lib/constants/site";
 import { useCartCount } from "@/hooks/use-cart-store";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { CurrencySwitcher } from "@/components/shared/currency-switcher";
@@ -19,7 +18,7 @@ import { SiteSearch } from "@/components/shared/site-search";
 import { AccountMenu } from "@/components/shared/account-menu";
 import { useLocale } from "@/components/providers/locale-provider";
 
-export function SiteHeader() {
+export function SiteHeader({ storeName }: { storeName: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const cartCount = useCartCount();
   const { locale } = useLocale();
@@ -36,7 +35,7 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side={locale === "he" ? "right" : "left"} className="w-72 bg-background">
               <SheetTitle className="px-6 pt-6 font-display text-xl">
-                {siteSettings.storeName}
+                {storeName}
               </SheetTitle>
               <nav className="mt-8 flex flex-col gap-1 px-6">
                 {mainNav.map((item) => (
@@ -59,7 +58,7 @@ export function SiteHeader() {
         </div>
 
         <Link href="/" className="font-display text-xl tracking-wide lg:text-2xl">
-          {siteSettings.storeName}
+          {storeName}
         </Link>
 
         <nav className="hidden items-center gap-10 lg:flex">

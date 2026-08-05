@@ -31,6 +31,7 @@ export async function createArtwork(input: Record<string, unknown>) {
         yearCreated: data.type === "ORIGINAL" ? data.yearCreated : null,
         isSold: data.isSold ?? false,
         shippingTimeNote: data.shippingTimeNote || null,
+        inventory: data.type === "ORIGINAL" ? (data.inventory ?? 1) : 1,
         printSizes:
           data.type === "PRINT" && data.printSizes
             ? { create: data.printSizes.map(({ id: _id, ...s }) => s) }
@@ -80,6 +81,7 @@ export async function updateArtwork(id: string, input: Record<string, unknown>) 
           yearCreated: data.type === "ORIGINAL" ? data.yearCreated : null,
           isSold: data.isSold ?? false,
           shippingTimeNote: data.shippingTimeNote || null,
+          inventory: data.type === "ORIGINAL" ? (data.inventory ?? 1) : 1,
         },
       });
 
