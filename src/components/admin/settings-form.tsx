@@ -11,8 +11,10 @@ import {
   type SiteSettingsInput,
 } from "@/lib/validation/settings";
 import { updateSiteSettings } from "@/server/actions/settings";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function SettingsForm({ defaultValues }: { defaultValues: SiteSettingsInput }) {
+  const { t } = useLocale();
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -41,7 +43,7 @@ export function SettingsForm({ defaultValues }: { defaultValues: SiteSettingsInp
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-md space-y-5" noValidate>
       <div>
-        <Label htmlFor="storeName">Store Name</Label>
+        <Label htmlFor="storeName">{t.admin.settings.storeName}</Label>
         <Input id="storeName" className="mt-2" {...form.register("storeName")} />
         {form.formState.errors.storeName && (
           <p className="mt-1 text-xs text-destructive">
@@ -50,11 +52,11 @@ export function SettingsForm({ defaultValues }: { defaultValues: SiteSettingsInp
         )}
       </div>
       <div>
-        <Label htmlFor="tagline">Tagline</Label>
+        <Label htmlFor="tagline">{t.admin.settings.tagline}</Label>
         <Input id="tagline" className="mt-2" {...form.register("tagline")} />
       </div>
       <div>
-        <Label htmlFor="supportEmail">Support Email</Label>
+        <Label htmlFor="supportEmail">{t.admin.settings.supportEmail}</Label>
         <Input id="supportEmail" type="email" className="mt-2" {...form.register("supportEmail")} />
         {form.formState.errors.supportEmail && (
           <p className="mt-1 text-xs text-destructive">
@@ -63,25 +65,25 @@ export function SettingsForm({ defaultValues }: { defaultValues: SiteSettingsInp
         )}
       </div>
       <div>
-        <Label htmlFor="instagramUrl">Instagram URL</Label>
+        <Label htmlFor="instagramUrl">{t.admin.settings.instagramUrl}</Label>
         <Input id="instagramUrl" className="mt-2" {...form.register("instagramUrl")} />
       </div>
       <div>
-        <Label htmlFor="defaultCurrency">Default Currency</Label>
+        <Label htmlFor="defaultCurrency">{t.admin.settings.defaultCurrency}</Label>
         <Input id="defaultCurrency" className="mt-2" {...form.register("defaultCurrency")} />
       </div>
       <div>
-        <Label htmlFor="defaultLanguage">Default Language</Label>
+        <Label htmlFor="defaultLanguage">{t.admin.settings.defaultLanguage}</Label>
         <Input id="defaultLanguage" className="mt-2" {...form.register("defaultLanguage")} />
       </div>
 
       {status === "error" && error && (
         <p className="text-sm text-destructive">{error}</p>
       )}
-      {status === "saved" && <p className="text-sm text-brand">Settings saved.</p>}
+      {status === "saved" && <p className="text-sm text-brand">{t.admin.settings.settingsSaved}</p>}
 
       <Button type="submit" className="rounded-none" disabled={submitting}>
-        {submitting ? "Saving…" : "Save Settings"}
+        {submitting ? t.admin.saving : t.admin.settings.saveSettings}
       </Button>
     </form>
   );

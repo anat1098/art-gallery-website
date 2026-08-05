@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { deleteArtwork } from "@/server/actions/artwork";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function DeleteArtworkButton({ id }: { id: string }) {
   const router = useRouter();
+  const { t } = useLocale();
   const [error, setError] = useState<string | null>(null);
 
   return (
@@ -16,7 +18,7 @@ export function DeleteArtworkButton({ id }: { id: string }) {
         variant="ghost"
         className="text-destructive hover:text-destructive"
         onClick={async () => {
-          if (!window.confirm("Delete this artwork? This cannot be undone.")) return;
+          if (!window.confirm(t.admin.artworks.deleteConfirm)) return;
           const result = await deleteArtwork(id);
           if (!result.ok) {
             setError(result.error);
@@ -26,7 +28,7 @@ export function DeleteArtworkButton({ id }: { id: string }) {
           router.refresh();
         }}
       >
-        Delete Artwork
+        {t.admin.artworks.deleteArtwork}
       </Button>
       {error && <p className="text-xs text-destructive">{error}</p>}
     </div>

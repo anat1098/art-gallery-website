@@ -14,7 +14,7 @@ export function ArtworkGallery({ images }: { images: ArtworkImageData[] }) {
 
   return (
     <div>
-      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         <AnimatePresence mode="wait">
           <motion.div
             key={active.id}
@@ -64,7 +64,7 @@ export function ArtworkGallery({ images }: { images: ArtworkImageData[] }) {
           className="max-w-4xl border-none bg-transparent p-0 shadow-none"
         >
           <DialogTitle className="sr-only">{active.alt}</DialogTitle>
-          <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <div className="relative aspect-square w-full overflow-hidden">
             <ArtworkPlaceholder seed={active.seed} className="h-full w-full" />
             <button
               type="button"

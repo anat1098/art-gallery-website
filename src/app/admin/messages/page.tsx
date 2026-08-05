@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { prisma } from "@/server/db/client";
 import { MessageReadToggle } from "@/components/admin/message-read-toggle";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Messages",
 };
 
 export default async function AdminMessagesPage() {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale].admin;
+
   let messages: Awaited<ReturnType<typeof prisma.contactMessage.findMany>> = [];
   let loadError: string | null = null;
 
@@ -15,19 +23,19 @@ export default async function AdminMessagesPage() {
       orderBy: { createdAt: "desc" },
     });
   } catch {
-    loadError = "Unable to reach the database.";
+    loadError = t.unableToReachDb;
   }
 
   return (
     <div>
-      <h1 className="font-display text-2xl">Messages</h1>
+      <h1 className="font-display text-2xl">{t.messages.title}</h1>
 
       {loadError && (
         <p className="mt-6 text-sm text-destructive">{loadError}</p>
       )}
 
       {!loadError && messages.length === 0 && (
-        <p className="mt-8 text-sm text-muted-foreground">No messages yet.</p>
+        <p className="mt-8 text-sm text-muted-foreground">{t.messages.noMessagesYet}</p>
       )}
 
       {messages.length > 0 && (

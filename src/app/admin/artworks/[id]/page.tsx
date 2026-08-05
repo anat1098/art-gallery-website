@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { prisma } from "@/server/db/client";
 import { ArtworkForm } from "@/components/admin/artwork-form";
 import { DeleteArtworkButton } from "@/components/admin/delete-artwork-button";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Edit Artwork",
@@ -21,6 +24,10 @@ async function getArtwork(id: string) {
 
 export default async function EditArtworkPage({ params }: EditArtworkPageProps) {
   const { id } = await params;
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale].admin;
 
   let artwork: Awaited<ReturnType<typeof getArtwork>> = null;
   let categories: { id: string; name: string }[] = [];
@@ -34,7 +41,7 @@ export default async function EditArtworkPage({ params }: EditArtworkPageProps) 
       prisma.medium.findMany({ select: { id: true, name: true } }),
     ]);
   } catch {
-    loadError = "Unable to reach the database.";
+    loadError = t.unableToReachDb;
   }
 
   if (loadError) {
@@ -45,7 +52,7 @@ export default async function EditArtworkPage({ params }: EditArtworkPageProps) 
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl">Edit Artwork</h1>
+        <h1 className="font-display text-2xl">{t.artworks.editArtwork}</h1>
         <DeleteArtworkButton id={artwork.id} />
       </div>
       <div className="mt-8">

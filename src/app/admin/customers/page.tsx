@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { prisma } from "@/server/db/client";
 import { CustomerActiveToggle } from "@/components/admin/customer-active-toggle";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Customers",
 };
 
 export default async function AdminCustomersPage() {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale].admin;
+
   let customers: Array<{
     id: string;
     name: string | null;
@@ -31,19 +39,19 @@ export default async function AdminCustomersPage() {
       },
     });
   } catch {
-    loadError = "Unable to reach the database.";
+    loadError = t.unableToReachDb;
   }
 
   return (
     <div>
-      <h1 className="font-display text-2xl">Customers</h1>
+      <h1 className="font-display text-2xl">{t.customers.title}</h1>
 
       {loadError && (
         <p className="mt-6 text-sm text-destructive">{loadError}</p>
       )}
 
       {!loadError && customers.length === 0 && (
-        <p className="mt-8 text-sm text-muted-foreground">No customers yet.</p>
+        <p className="mt-8 text-sm text-muted-foreground">{t.customers.noCustomersYet}</p>
       )}
 
       {customers.length > 0 && (
@@ -53,8 +61,8 @@ export default async function AdminCustomersPage() {
               <div className="min-w-0">
                 <p className="text-sm">{c.name ?? "—"}</p>
                 <p className="text-xs break-all text-muted-foreground">
-                  {c.email} · Joined {c.createdAt.toLocaleDateString()} ·{" "}
-                  {c._count.orders} order{c._count.orders === 1 ? "" : "s"}
+                  {c.email} · {t.customers.joined} {c.createdAt.toLocaleDateString()} ·{" "}
+                  {c._count.orders} {c._count.orders === 1 ? t.customers.order : t.customers.orders}
                 </p>
               </div>
               <CustomerActiveToggle id={c.id} initialValue={c.isActive} />

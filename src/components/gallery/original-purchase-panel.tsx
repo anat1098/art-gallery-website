@@ -80,7 +80,7 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
         <Button
           size="lg"
           variant="outline"
-          className="h-12 flex-1 rounded-none"
+          className="h-12 w-full rounded-none sm:w-auto sm:flex-1"
           disabled={artwork.isSold || atMax}
           onClick={handleAddToCart}
         >
@@ -88,17 +88,13 @@ export function OriginalPurchasePanel({ artwork }: { artwork: ArtworkDetailData 
         </Button>
         <Button
           size="lg"
-          className="h-12 flex-1 rounded-none"
+          className="h-12 w-full rounded-none sm:w-auto sm:flex-1"
           disabled={artwork.isSold}
           onClick={handleBuyNow}
         >
           {t.common.buyNow}
         </Button>
       </div>
-
-      {artwork.shippingTimeNote && (
-        <p className="mt-6 text-sm text-muted-foreground">{artwork.shippingTimeNote}</p>
-      )}
     </div>
   );
 }

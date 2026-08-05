@@ -13,6 +13,7 @@ import {
   updateTaxonomy,
   deleteTaxonomy,
 } from "@/server/actions/taxonomy";
+import { useLocale } from "@/components/providers/locale-provider";
 
 type Item = { id: string; name: string; nameHe: string | null; slug: string };
 
@@ -24,6 +25,7 @@ export function TaxonomyManager({
   items: Item[];
 }) {
   const router = useRouter();
+  const { t } = useLocale();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -63,7 +65,7 @@ export function TaxonomyManager({
   }
 
   async function onDelete(id: string) {
-    if (!window.confirm("Delete this item?")) return;
+    if (!window.confirm(t.admin.taxonomy.deleteConfirm)) return;
     const result = await deleteTaxonomy(kind, id);
     if (!result.ok) {
       setError(result.error);
@@ -80,7 +82,7 @@ export function TaxonomyManager({
         noValidate
       >
         <div>
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">{t.admin.taxonomy.name}</Label>
           <Input id="name" className="mt-2" {...form.register("name")} />
           {form.formState.errors.name && (
             <p className="mt-1 text-xs text-destructive">
@@ -89,11 +91,11 @@ export function TaxonomyManager({
           )}
         </div>
         <div>
-          <Label htmlFor="nameHe">Name (Hebrew)</Label>
+          <Label htmlFor="nameHe">{t.admin.taxonomy.nameHe}</Label>
           <Input id="nameHe" className="mt-2" {...form.register("nameHe")} />
         </div>
         <div>
-          <Label htmlFor="slug">Slug</Label>
+          <Label htmlFor="slug">{t.admin.taxonomy.slug}</Label>
           <Input id="slug" className="mt-2" {...form.register("slug")} />
           {form.formState.errors.slug && (
             <p className="mt-1 text-xs text-destructive">
@@ -103,11 +105,11 @@ export function TaxonomyManager({
         </div>
         <div className="flex items-end gap-2">
           <Button type="submit" className="rounded-none" disabled={submitting}>
-            {editingId ? "Save" : "Add"}
+            {editingId ? t.admin.save : t.admin.add}
           </Button>
           {editingId && (
             <Button type="button" variant="ghost" onClick={startNew}>
-              Cancel
+              {t.admin.cancel}
             </Button>
           )}
         </div>
@@ -118,7 +120,7 @@ export function TaxonomyManager({
       <div className="mt-8 divide-y divide-border border-y border-border">
         {items.length === 0 && (
           <p className="py-6 text-center text-sm text-muted-foreground">
-            None yet — add the first one above.
+            {t.admin.taxonomy.noneYet}
           </p>
         )}
         {items.map((item) => (
@@ -133,14 +135,14 @@ export function TaxonomyManager({
                 className="underline underline-offset-4"
                 onClick={() => startEdit(item)}
               >
-                Edit
+                {t.admin.edit}
               </button>
               <button
                 type="button"
                 className="text-destructive underline underline-offset-4"
                 onClick={() => onDelete(item.id)}
               >
-                Delete
+                {t.admin.delete}
               </button>
             </div>
           </div>

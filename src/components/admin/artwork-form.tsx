@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { artworkSchema, type ArtworkInput } from "@/lib/validation/artwork";
 import { createArtwork, updateArtwork } from "@/server/actions/artwork";
+import { useLocale } from "@/components/providers/locale-provider";
 
 type Option = { id: string; name: string };
 
@@ -34,6 +35,8 @@ export function ArtworkForm({
   defaultValues?: Partial<ArtworkInput>;
 }) {
   const router = useRouter();
+  const { t } = useLocale();
+  const f = t.admin.artworkForm;
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -85,7 +88,7 @@ export function ArtworkForm({
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-3xl space-y-8" noValidate>
       <div>
-        <Label htmlFor="type">Type</Label>
+        <Label htmlFor="type">{f.type}</Label>
         <Select
           value={form.watch("type")}
           onValueChange={(v) => form.setValue("type", v as "PRINT" | "ORIGINAL")}
@@ -94,47 +97,47 @@ export function ArtworkForm({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="PRINT">Print</SelectItem>
-            <SelectItem value="ORIGINAL">Original</SelectItem>
+            <SelectItem value="PRINT">{f.print}</SelectItem>
+            <SelectItem value="ORIGINAL">{f.original}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">{f.title}</Label>
           <Input id="title" className="mt-2" {...form.register("title")} />
           {form.formState.errors.title && (
             <p className="mt-1 text-xs text-destructive">{form.formState.errors.title.message}</p>
           )}
         </div>
         <div>
-          <Label htmlFor="titleHe">Title (Hebrew)</Label>
-          <Input id="titleHe" className="mt-2" {...form.register("titleHe")} />
+          <Label htmlFor="titleHe">{f.titleHe}</Label>
+          <Input id="titleHe" className="mt-2" dir="rtl" {...form.register("titleHe")} />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="slug">Slug</Label>
+          <Label htmlFor="slug">{f.slug}</Label>
           <Input id="slug" className="mt-2" {...form.register("slug")} />
           {form.formState.errors.slug && (
             <p className="mt-1 text-xs text-destructive">{form.formState.errors.slug.message}</p>
           )}
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{f.description}</Label>
           <Textarea id="description" rows={4} className="mt-2" {...form.register("description")} />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor="materials">Materials</Label>
+          <Label htmlFor="materials">{f.materials}</Label>
           <Input id="materials" className="mt-2" {...form.register("materials")} />
         </div>
 
         <div>
-          <Label htmlFor="categoryId">Category</Label>
+          <Label htmlFor="categoryId">{f.category}</Label>
           {categories.length === 0 ? (
             <p className="mt-2 text-xs text-muted-foreground">
-              No categories yet.{" "}
+              {f.noCategoriesYet}{" "}
               <Link href="/admin/categories" className="underline underline-offset-4">
-                Add one first
+                {f.addOneFirst}
               </Link>
               .
             </p>
@@ -144,7 +147,7 @@ export function ArtworkForm({
               onValueChange={(v) => form.setValue("categoryId", v)}
             >
               <SelectTrigger id="categoryId" className="mt-2 w-full rounded-none">
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder={f.selectCategory} />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((c) => (
@@ -157,12 +160,12 @@ export function ArtworkForm({
           )}
         </div>
         <div>
-          <Label htmlFor="mediumId">Medium</Label>
+          <Label htmlFor="mediumId">{f.medium}</Label>
           {mediums.length === 0 ? (
             <p className="mt-2 text-xs text-muted-foreground">
-              No mediums yet.{" "}
+              {f.noMediumsYet}{" "}
               <Link href="/admin/mediums" className="underline underline-offset-4">
-                Add one first
+                {f.addOneFirst}
               </Link>
               .
             </p>
@@ -172,7 +175,7 @@ export function ArtworkForm({
               onValueChange={(v) => form.setValue("mediumId", v)}
             >
               <SelectTrigger id="mediumId" className="mt-2 w-full rounded-none">
-                <SelectValue placeholder="Select a medium" />
+                <SelectValue placeholder={f.selectMedium} />
               </SelectTrigger>
               <SelectContent>
                 {mediums.map((m) => (
@@ -189,26 +192,26 @@ export function ArtworkForm({
       <div className="flex flex-wrap gap-6">
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" {...form.register("isPublished")} />
-          Published
+          {t.admin.artworks.published}
         </label>
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" {...form.register("isFeatured")} />
-          Featured
+          {t.admin.artworks.featured}
         </label>
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" {...form.register("isNewArrival")} />
-          New Arrival
+          {t.admin.artworks.newArrival}
         </label>
       </div>
 
       {type === "ORIGINAL" && (
         <div className="space-y-4 rounded-sm border border-border p-4 sm:p-6">
           <p className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-            Original Details
+            {f.originalDetails}
           </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="originalPrice">Price</Label>
+              <Label htmlFor="originalPrice">{f.price}</Label>
               <Input
                 id="originalPrice"
                 type="number"
@@ -223,7 +226,7 @@ export function ArtworkForm({
               )}
             </div>
             <div>
-              <Label htmlFor="yearCreated">Year Created</Label>
+              <Label htmlFor="yearCreated">{f.yearCreated}</Label>
               <Input
                 id="yearCreated"
                 type="number"
@@ -232,7 +235,7 @@ export function ArtworkForm({
               />
             </div>
             <div>
-              <Label htmlFor="originalWidthCm">Width (cm)</Label>
+              <Label htmlFor="originalWidthCm">{f.widthCm}</Label>
               <Input
                 id="originalWidthCm"
                 type="number"
@@ -242,7 +245,7 @@ export function ArtworkForm({
               />
             </div>
             <div>
-              <Label htmlFor="originalHeightCm">Height (cm)</Label>
+              <Label htmlFor="originalHeightCm">{f.heightCm}</Label>
               <Input
                 id="originalHeightCm"
                 type="number"
@@ -252,7 +255,7 @@ export function ArtworkForm({
               />
             </div>
             <div>
-              <Label htmlFor="inventory">Available Quantity</Label>
+              <Label htmlFor="inventory">{f.availableQuantity}</Label>
               <Input
                 id="inventory"
                 type="number"
@@ -261,7 +264,7 @@ export function ArtworkForm({
                 {...form.register("inventory", { valueAsNumber: true })}
               />
               <p className="mt-1 text-xs text-muted-foreground">
-                How many copies of this original are available to sell (usually 1). Not shown to customers.
+                {f.availableQuantityHint}
               </p>
               {form.formState.errors.inventory && (
                 <p className="mt-1 text-xs text-destructive">
@@ -270,13 +273,13 @@ export function ArtworkForm({
               )}
             </div>
             <div className="sm:col-span-2">
-              <Label htmlFor="shippingTimeNote">Shipping Note</Label>
+              <Label htmlFor="shippingTimeNote">{f.shippingNote}</Label>
               <Input id="shippingTimeNote" className="mt-2" {...form.register("shippingTimeNote")} />
             </div>
           </div>
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" {...form.register("isSold")} />
-            Sold
+            {f.sold}
           </label>
         </div>
       )}
@@ -286,7 +289,7 @@ export function ArtworkForm({
           <div className="rounded-sm border border-border p-4 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-                Print Sizes
+                {f.printSizes}
               </p>
               <Button
                 type="button"
@@ -303,7 +306,7 @@ export function ArtworkForm({
                   })
                 }
               >
-                <Plus className="mr-1 size-4" /> Add Size
+                <Plus className="mr-1 size-4" /> {f.addSize}
               </Button>
             </div>
             {form.formState.errors.printSizes?.message && (
@@ -318,39 +321,39 @@ export function ArtworkForm({
                   className="grid grid-cols-2 items-end gap-2 border-b border-border pb-4 sm:grid-cols-5 sm:border-none sm:pb-0"
                 >
                   <Input
-                    placeholder="Label (A4)"
+                    placeholder={f.sizeLabelPlaceholder}
                     className="col-span-2 sm:col-span-1"
                     {...form.register(`printSizes.${index}.label`)}
                   />
                   <Input
                     type="number"
-                    placeholder="Width cm"
+                    placeholder={f.widthPlaceholder}
                     step="0.1"
                     {...form.register(`printSizes.${index}.widthCm`, { valueAsNumber: true })}
                   />
                   <Input
                     type="number"
-                    placeholder="Height cm"
+                    placeholder={f.heightPlaceholder}
                     step="0.1"
                     {...form.register(`printSizes.${index}.heightCm`, { valueAsNumber: true })}
                   />
                   <Input
                     type="number"
-                    placeholder="Price"
+                    placeholder={f.pricePlaceholder}
                     step="0.01"
                     {...form.register(`printSizes.${index}.price`, { valueAsNumber: true })}
                   />
                   <div className="flex items-center gap-2">
                     <Input
                       type="number"
-                      placeholder="Inventory"
+                      placeholder={f.inventoryPlaceholder}
                       {...form.register(`printSizes.${index}.inventory`, { valueAsNumber: true })}
                     />
                     <button
                       type="button"
                       onClick={() => sizesArray.remove(index)}
                       className="text-muted-foreground hover:text-destructive"
-                      aria-label="Remove size"
+                      aria-label={f.removeSize}
                     >
                       <Trash2 className="size-4" />
                     </button>
@@ -363,7 +366,7 @@ export function ArtworkForm({
           <div className="rounded-sm border border-border p-4 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-xs font-medium tracking-widest text-muted-foreground uppercase">
-                Frame Options
+                {f.frameOptions}
               </p>
               <Button
                 type="button"
@@ -372,7 +375,7 @@ export function ArtworkForm({
                 className="rounded-none"
                 onClick={() => framesArray.append({ label: "", priceDelta: 0, isDefault: false })}
               >
-                <Plus className="mr-1 size-4" /> Add Frame
+                <Plus className="mr-1 size-4" /> {f.addFrame}
               </Button>
             </div>
             <div className="mt-4 space-y-4">
@@ -382,25 +385,25 @@ export function ArtworkForm({
                   className="grid grid-cols-2 items-end gap-2 border-b border-border pb-4 sm:grid-cols-4 sm:border-none sm:pb-0"
                 >
                   <Input
-                    placeholder="Label (No Frame)"
+                    placeholder={f.framePlaceholder}
                     className="col-span-2 sm:col-span-1"
                     {...form.register(`frameOptions.${index}.label`)}
                   />
                   <Input
                     type="number"
-                    placeholder="Price add-on"
+                    placeholder={f.priceAddOnPlaceholder}
                     step="0.01"
                     {...form.register(`frameOptions.${index}.priceDelta`, { valueAsNumber: true })}
                   />
                   <label className="flex items-center gap-2 text-sm">
                     <input type="checkbox" {...form.register(`frameOptions.${index}.isDefault`)} />
-                    Default
+                    {f.default}
                   </label>
                   <button
                     type="button"
                     onClick={() => framesArray.remove(index)}
                     className="justify-self-start text-muted-foreground hover:text-destructive"
-                    aria-label="Remove frame option"
+                    aria-label={f.removeFrame}
                   >
                     <Trash2 className="size-4" />
                   </button>
@@ -412,14 +415,13 @@ export function ArtworkForm({
       )}
 
       <div className="rounded-sm border border-dashed border-border p-4 text-sm text-muted-foreground sm:p-6">
-        Image upload isn&apos;t connected yet — add an UploadThing token to{" "}
-        <code>.env</code> to enable drag-and-drop image management here.
+        {t.admin.artworks.imageUploadNote}
       </div>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <Button type="submit" size="lg" className="w-full rounded-none sm:w-auto" disabled={submitting}>
-        {submitting ? "Saving…" : artworkId ? "Save Changes" : "Create Artwork"}
+        {submitting ? t.admin.saving : artworkId ? f.saveChanges : f.createArtwork}
       </Button>
     </form>
   );

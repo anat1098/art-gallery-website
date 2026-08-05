@@ -1,33 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { prisma } from "@/server/db/client";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/format";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Orders",
 };
 
 export default async function AdminOrdersPage() {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const dict = dictionaries[locale];
+  const t = dict.admin;
+
   let orders: Awaited<ReturnType<typeof prisma.order.findMany>> = [];
   let loadError: string | null = null;
 
   try {
     orders = await prisma.order.findMany({ orderBy: { createdAt: "desc" } });
   } catch {
-    loadError = "Unable to reach the database.";
+    loadError = t.unableToReachDb;
   }
 
   return (
     <div>
-      <h1 className="font-display text-2xl">Orders</h1>
+      <h1 className="font-display text-2xl">{t.orders.title}</h1>
 
       {loadError && (
         <p className="mt-6 text-sm text-destructive">{loadError}</p>
       )}
 
       {!loadError && orders.length === 0 && (
-        <p className="mt-8 text-sm text-muted-foreground">No orders yet.</p>
+        <p className="mt-8 text-sm text-muted-foreground">{t.orders.noOrdersYet}</p>
       )}
 
       {orders.length > 0 && (
@@ -46,7 +55,9 @@ export default async function AdminOrdersPage() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <Badge variant="outline">{order.status}</Badge>
+                <Badge variant="outline">
+                  {dict.orderStatus[order.status as keyof typeof dict.orderStatus] ?? order.status}
+                </Badge>
                 <p>{formatPrice(Number(order.total), order.currency)}</p>
               </div>
             </Link>

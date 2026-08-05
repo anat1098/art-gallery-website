@@ -11,31 +11,23 @@ import {
   type SiteContentInput,
 } from "@/lib/validation/content";
 import { updateSiteContent } from "@/server/actions/content";
+import { useLocale } from "@/components/providers/locale-provider";
 
-const fields: { name: keyof SiteContentInput; label: string }[] = [
-  { name: "printsSubheadingEn", label: "Prints Page Subheading (English)" },
-  { name: "printsSubheadingHe", label: "Prints Page Subheading (Hebrew)" },
-  { name: "originalsSubheadingEn", label: "Originals Page Subheading (English)" },
-  { name: "originalsSubheadingHe", label: "Originals Page Subheading (Hebrew)" },
-  { name: "homeAboutBodyEn", label: "Homepage About Teaser Text (English)" },
-  { name: "homeAboutBodyHe", label: "Homepage About Teaser Text (Hebrew)" },
-  { name: "aboutBody1En", label: "About Page — Paragraph 1 (English)" },
-  { name: "aboutBody1He", label: "About Page — Paragraph 1 (Hebrew)" },
-  { name: "aboutBody2En", label: "About Page — Paragraph 2 (English)" },
-  { name: "aboutBody2He", label: "About Page — Paragraph 2 (Hebrew)" },
-  { name: "careInfoEn", label: "Product Page — Care Info (English)" },
-  { name: "careInfoHe", label: "Product Page — Care Info (Hebrew)" },
-  { name: "returnsPolicyEn", label: "Product Page — Returns & Refund Policy (English)" },
-  { name: "returnsPolicyHe", label: "Product Page — Returns & Refund Policy (Hebrew)" },
-  { name: "shippingInfoEn", label: "Product Page — Shipping (English)" },
-  { name: "shippingInfoHe", label: "Product Page — Shipping (Hebrew)" },
-  { name: "contactBodyEn", label: "Contact Page Text (English)" },
-  { name: "contactBodyHe", label: "Contact Page Text (Hebrew)" },
-  { name: "newsletterBodyEn", label: "Newsletter Section Text (English)" },
-  { name: "newsletterBodyHe", label: "Newsletter Section Text (Hebrew)" },
+const fieldBases: { base: string; enKey: keyof SiteContentInput; heKey: keyof SiteContentInput }[] = [
+  { base: "printsSubheading", enKey: "printsSubheadingEn", heKey: "printsSubheadingHe" },
+  { base: "originalsSubheading", enKey: "originalsSubheadingEn", heKey: "originalsSubheadingHe" },
+  { base: "homeAboutBody", enKey: "homeAboutBodyEn", heKey: "homeAboutBodyHe" },
+  { base: "aboutBody1", enKey: "aboutBody1En", heKey: "aboutBody1He" },
+  { base: "aboutBody2", enKey: "aboutBody2En", heKey: "aboutBody2He" },
+  { base: "careInfo", enKey: "careInfoEn", heKey: "careInfoHe" },
+  { base: "returnsPolicy", enKey: "returnsPolicyEn", heKey: "returnsPolicyHe" },
+  { base: "shippingInfo", enKey: "shippingInfoEn", heKey: "shippingInfoHe" },
+  { base: "contactBody", enKey: "contactBodyEn", heKey: "contactBodyHe" },
+  { base: "newsletterBody", enKey: "newsletterBodyEn", heKey: "newsletterBodyHe" },
 ];
 
 export function ContentForm({ defaultValues }: { defaultValues: SiteContentInput }) {
+  const { t } = useLocale();
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -63,29 +55,31 @@ export function ContentForm({ defaultValues }: { defaultValues: SiteContentInput
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-xl space-y-5" noValidate>
-      <p className="text-sm text-muted-foreground">
-        Leave a field blank to use the site&apos;s default text.
-      </p>
-      {fields.map((field) => (
-        <div key={field.name}>
-          <Label htmlFor={field.name}>{field.label}</Label>
-          <Textarea
-            id={field.name}
-            className="mt-2"
-            rows={2}
-            dir={field.name.endsWith("He") ? "rtl" : "ltr"}
-            {...form.register(field.name)}
-          />
+      <p className="text-sm text-muted-foreground">{t.admin.settings.leaveBlankHint}</p>
+      {fieldBases.map(({ base, enKey, heKey }) => (
+        <div key={base} className="space-y-5">
+          <div>
+            <Label htmlFor={enKey}>
+              {t.admin.content[base as keyof typeof t.admin.content]} ({t.admin.content.langEn})
+            </Label>
+            <Textarea id={enKey} className="mt-2" rows={2} dir="ltr" {...form.register(enKey)} />
+          </div>
+          <div>
+            <Label htmlFor={heKey}>
+              {t.admin.content[base as keyof typeof t.admin.content]} ({t.admin.content.langHe})
+            </Label>
+            <Textarea id={heKey} className="mt-2" rows={2} dir="rtl" {...form.register(heKey)} />
+          </div>
         </div>
       ))}
 
       {status === "error" && error && (
         <p className="text-sm text-destructive">{error}</p>
       )}
-      {status === "saved" && <p className="text-sm text-brand">Content saved.</p>}
+      {status === "saved" && <p className="text-sm text-brand">{t.admin.settings.contentSaved}</p>}
 
       <Button type="submit" className="rounded-none" disabled={submitting}>
-        {submitting ? "Saving…" : "Save Content"}
+        {submitting ? t.admin.saving : t.admin.settings.saveContent}
       </Button>
     </form>
   );

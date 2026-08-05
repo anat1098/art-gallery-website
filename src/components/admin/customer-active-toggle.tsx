@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toggleCustomerActive } from "@/server/actions/customer";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function CustomerActiveToggle({
   id,
@@ -12,6 +13,7 @@ export function CustomerActiveToggle({
   initialValue: boolean;
 }) {
   const router = useRouter();
+  const { t } = useLocale();
   const [value, setValue] = useState(initialValue);
   const [pending, setPending] = useState(false);
 
@@ -32,7 +34,7 @@ export function CustomerActiveToggle({
         value ? "bg-foreground text-background" : "bg-destructive text-white"
       }`}
     >
-      {value ? "Active" : "Deactivated"}
+      {value ? t.admin.customers.active : t.admin.customers.deactivated}
     </button>
   );
 }

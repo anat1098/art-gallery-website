@@ -38,7 +38,7 @@ export default async function OriginalsPage({ searchParams }: OriginalsPageProps
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10 lg:py-20">
-      <div className="max-w-2xl">
+      <div className="mx-auto max-w-2xl text-center">
         <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase">
           {t.originals.eyebrow}
         </p>

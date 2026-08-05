@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toggleMessageRead } from "@/server/actions/contact";
+import { useLocale } from "@/components/providers/locale-provider";
 
 export function MessageReadToggle({
   id,
@@ -12,6 +13,7 @@ export function MessageReadToggle({
   initialValue: boolean;
 }) {
   const router = useRouter();
+  const { t } = useLocale();
   const [value, setValue] = useState(initialValue);
 
   return (
@@ -28,7 +30,7 @@ export function MessageReadToggle({
         value ? "bg-secondary text-muted-foreground" : "bg-foreground text-background"
       }`}
     >
-      {value ? "Read" : "Unread"}
+      {value ? t.admin.messages.read : t.admin.messages.unread}
     </button>
   );
 }

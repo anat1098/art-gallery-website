@@ -55,7 +55,7 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
   return (
     <Link href={href} className="group block">
       <motion.div
-        className="relative aspect-square overflow-hidden rounded-lg bg-muted"
+        className="relative aspect-square overflow-hidden rounded-[8px] bg-muted"
         whileHover="hover"
         initial="rest"
       >

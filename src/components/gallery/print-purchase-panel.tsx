@@ -117,7 +117,7 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
         <Button
           size="lg"
           variant="outline"
-          className="h-12 flex-1 rounded-none"
+          className="h-12 w-full rounded-none sm:w-auto sm:flex-1"
           disabled={outOfStock}
           onClick={handleAddToCart}
         >
@@ -125,19 +125,13 @@ export function PrintPurchasePanel({ artwork }: { artwork: ArtworkDetailData }) 
         </Button>
         <Button
           size="lg"
-          className="h-12 flex-1 rounded-none"
+          className="h-12 w-full rounded-none sm:w-auto sm:flex-1"
           disabled={outOfStock}
           onClick={handleBuyNow}
         >
           {t.common.buyNow}
         </Button>
       </div>
-
-      {artwork.estimatedDelivery && (
-        <p className="mt-6 text-sm text-muted-foreground">
-          {t.artwork.estimatedDelivery}: {artwork.estimatedDelivery}
-        </p>
-      )}
     </div>
   );
 }

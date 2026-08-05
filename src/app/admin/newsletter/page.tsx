@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { prisma } from "@/server/db/client";
 import { Button } from "@/components/ui/button";
+import { dictionaries } from "@/i18n/dictionaries";
+import { isLocale, defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Newsletter",
 };
 
 export default async function AdminNewsletterPage() {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  const t = dictionaries[locale].admin;
+
   let subscribers: Awaited<ReturnType<typeof prisma.newsletterSubscriber.findMany>> = [];
   let loadError: string | null = null;
 
@@ -15,15 +23,15 @@ export default async function AdminNewsletterPage() {
       orderBy: { createdAt: "desc" },
     });
   } catch {
-    loadError = "Unable to reach the database.";
+    loadError = t.unableToReachDb;
   }
 
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="font-display text-2xl">Newsletter</h1>
+        <h1 className="font-display text-2xl">{t.newsletter.title}</h1>
         <Button variant="outline" className="rounded-none" asChild>
-          <a href="/admin/newsletter/export">Export CSV</a>
+          <a href="/admin/newsletter/export">{t.newsletter.exportCsv}</a>
         </Button>
       </div>
 
@@ -33,7 +41,8 @@ export default async function AdminNewsletterPage() {
 
       {!loadError && (
         <p className="mt-2 text-sm text-muted-foreground">
-          {subscribers.length} subscriber{subscribers.length === 1 ? "" : "s"}
+          {subscribers.length}{" "}
+          {subscribers.length === 1 ? t.newsletter.subscriber : t.newsletter.subscribers}
         </p>
       )}
 

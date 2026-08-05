@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateOrderStatus, updateOrderTracking } from "@/server/actions/order-admin";
+import { useLocale } from "@/components/providers/locale-provider";
 
 const statuses = [
   "PENDING",
@@ -24,7 +25,7 @@ const statuses = [
   "DELIVERED",
   "CANCELLED",
   "REFUNDED",
-];
+] as const;
 
 export function OrderStatusEditor({
   orderId,
@@ -38,6 +39,7 @@ export function OrderStatusEditor({
   initialTrackingUrl: string;
 }) {
   const router = useRouter();
+  const { t } = useLocale();
   const [status, setStatus] = useState(initialStatus);
   const [trackingNumber, setTrackingNumber] = useState(initialTrackingNumber);
   const [trackingUrl, setTrackingUrl] = useState(initialTrackingUrl);
@@ -73,7 +75,7 @@ export function OrderStatusEditor({
   return (
     <div className="space-y-6 rounded-sm border border-border p-6">
       <div>
-        <Label htmlFor="status">Order Status</Label>
+        <Label htmlFor="status">{t.admin.orders.orderStatus}</Label>
         <Select value={status} onValueChange={onStatusChange}>
           <SelectTrigger id="status" className="mt-2 w-full rounded-none">
             <SelectValue />
@@ -81,16 +83,16 @@ export function OrderStatusEditor({
           <SelectContent>
             {statuses.map((s) => (
               <SelectItem key={s} value={s}>
-                {s}
+                {t.orderStatus[s]}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-        {savingStatus && <p className="mt-1 text-xs text-muted-foreground">Saving…</p>}
+        {savingStatus && <p className="mt-1 text-xs text-muted-foreground">{t.admin.saving}</p>}
       </div>
 
       <div>
-        <Label htmlFor="trackingNumber">Tracking Number</Label>
+        <Label htmlFor="trackingNumber">{t.admin.orders.trackingNumber}</Label>
         <Input
           id="trackingNumber"
           className="mt-2"
@@ -99,7 +101,7 @@ export function OrderStatusEditor({
         />
       </div>
       <div>
-        <Label htmlFor="trackingUrl">Tracking URL</Label>
+        <Label htmlFor="trackingUrl">{t.admin.orders.trackingUrl}</Label>
         <Input
           id="trackingUrl"
           className="mt-2"
@@ -114,7 +116,7 @@ export function OrderStatusEditor({
         disabled={savingTracking}
         onClick={onSaveTracking}
       >
-        {savingTracking ? "Saving…" : "Save Tracking Info"}
+        {savingTracking ? t.admin.saving : t.admin.orders.saveTracking}
       </Button>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
