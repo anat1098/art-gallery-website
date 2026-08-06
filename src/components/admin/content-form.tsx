@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -69,6 +70,7 @@ const groups: { group: string; fields: FieldBase[] }[] = [
 
 export function ContentForm({ defaultValues }: { defaultValues: SiteContentInput }) {
   const { t } = useLocale();
+  const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -95,12 +97,21 @@ export function ContentForm({ defaultValues }: { defaultValues: SiteContentInput
   }
 
   return (
-    <Accordion type="single" collapsible className="max-w-xl">
-      <AccordionItem value="section-text">
-        <AccordionTrigger className="text-xl font-normal hover:no-underline">
-          {t.admin.settings.sectionText}
-        </AccordionTrigger>
-        <AccordionContent>
+    <div className="max-w-xl">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between rounded-sm border border-border bg-secondary/40 px-5 py-4 text-start text-xl transition-colors hover:bg-secondary/70"
+      >
+        {t.admin.settings.sectionText}
+        <ChevronDown
+          className={`size-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {open && (
+        <div className="mt-6">
           <p className="mb-1 text-sm text-muted-foreground">{t.admin.settings.sectionTextHint}</p>
           <p className="mb-5 text-sm text-muted-foreground">{t.admin.settings.leaveBlankHint}</p>
 
@@ -160,8 +171,8 @@ export function ContentForm({ defaultValues }: { defaultValues: SiteContentInput
               {submitting ? t.admin.saving : t.admin.settings.saveContent}
             </Button>
           </form>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+        </div>
+      )}
+    </div>
   );
 }
