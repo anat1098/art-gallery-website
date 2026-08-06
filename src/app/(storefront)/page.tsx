@@ -17,6 +17,12 @@ export default async function Home() {
   const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
   const t = dictionaries[locale];
   const content = await getSiteContent();
+  const heroSubtitle = resolveContent(
+    locale,
+    content.heroSubtitleEn,
+    content.heroSubtitleHe,
+    t.home.heroSubtitle
+  );
   const aboutBody = resolveContent(
     locale,
     content.homeAboutBodyEn,
@@ -32,7 +38,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
+      <Hero subtitleOverride={heroSubtitle} />
       <FeaturedGrid variant="prints" artworks={featuredPrints} viewAllHref="/prints" />
       <FeaturedGrid
         variant="originals"

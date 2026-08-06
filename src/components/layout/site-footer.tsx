@@ -10,9 +10,17 @@ import { NewsletterForm } from "@/components/home/newsletter-form";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { SiteSettingsInput } from "@/lib/validation/settings";
 
-export function SiteFooter({ settings }: { settings: SiteSettingsInput }) {
+export function SiteFooter({
+  settings,
+  taglineOverrides,
+}: {
+  settings: SiteSettingsInput;
+  taglineOverrides?: { en?: string; he?: string };
+}) {
   const year = new Date().getFullYear();
   const { locale, t } = useLocale();
+  const tagline =
+    (locale === "he" ? taglineOverrides?.he : taglineOverrides?.en) || t.footer.tagline;
 
   return (
     <footer className="border-t border-border bg-secondary/60">
@@ -21,7 +29,7 @@ export function SiteFooter({ settings }: { settings: SiteSettingsInput }) {
           <div className="max-w-sm">
             <p className="font-display text-2xl">{settings.storeName}</p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {t.footer.tagline}
+              {tagline}
             </p>
             <div className="mt-6">
               <NewsletterForm />

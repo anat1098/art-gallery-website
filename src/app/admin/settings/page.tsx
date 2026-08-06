@@ -29,11 +29,7 @@ export default async function AdminSettingsPage() {
         <SettingsForm defaultValues={settings} />
       </div>
 
-      <h2 className="mt-14 text-xl">{t.settings.sectionText}</h2>
-      <p className="mt-2 text-sm text-muted-foreground">
-        {t.settings.sectionTextHint}
-      </p>
-      <div className="mt-6">
+      <div className="mt-14 border-t border-border pt-2">
         <ContentForm defaultValues={content} />
       </div>
     </div>

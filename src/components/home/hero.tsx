@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArtworkPlaceholder } from "@/components/shared/artwork-placeholder";
 import { useLocale } from "@/components/providers/locale-provider";
 
-export function Hero() {
+export function Hero({ subtitleOverride }: { subtitleOverride?: string }) {
   const { t } = useLocale();
 
   return (
@@ -23,7 +23,7 @@ export function Hero() {
           </p>
           <h1 className="mt-3">{t.home.heroTitle}</h1>
           <p className="mt-4 max-w-md text-base text-muted-foreground">
-            {t.home.heroSubtitle}
+            {subtitleOverride || t.home.heroSubtitle}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Button size="lg" className="rounded-none px-8" asChild>

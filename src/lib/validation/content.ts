@@ -1,6 +1,10 @@
 import { z } from "zod";
 
 export const siteContentSchema = z.object({
+  heroSubtitleEn: z.string().optional(),
+  heroSubtitleHe: z.string().optional(),
+  footerTaglineEn: z.string().optional(),
+  footerTaglineHe: z.string().optional(),
   printsSubheadingEn: z.string().optional(),
   printsSubheadingHe: z.string().optional(),
   originalsSubheadingEn: z.string().optional(),
