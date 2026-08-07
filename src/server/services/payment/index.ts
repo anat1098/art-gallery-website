@@ -1,9 +1,11 @@
 import type { PaymentProvider, PaymentProviderId } from "@/types/payment";
 import { stripeProvider } from "./stripe-provider";
 import { meshulamProvider } from "./meshulam-provider";
+import { tranzilaProvider } from "./tranzila-provider";
 import { createStubProvider } from "./stub-provider";
 
 const providers: Record<PaymentProviderId, PaymentProvider> = {
+  TRANZILA: tranzilaProvider,
   MESHULAM: meshulamProvider,
   STRIPE: stripeProvider,
   PAYPAL: createStubProvider("PAYPAL", "PayPal"),

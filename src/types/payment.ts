@@ -1,4 +1,10 @@
-export type PaymentProviderId = "STRIPE" | "PAYPAL" | "APPLE_PAY" | "BIT" | "MESHULAM";
+export type PaymentProviderId =
+  | "STRIPE"
+  | "PAYPAL"
+  | "APPLE_PAY"
+  | "BIT"
+  | "MESHULAM"
+  | "TRANZILA";
 
 export type CheckoutLineItem = {
   name: string;

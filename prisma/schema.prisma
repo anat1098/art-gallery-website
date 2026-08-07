@@ -248,6 +248,7 @@ enum PaymentProviderType {
   APPLE_PAY
   BIT
   MESHULAM
+  TRANZILA
 }
 
 model Order {
