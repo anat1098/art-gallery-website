@@ -247,6 +247,7 @@ enum PaymentProviderType {
   PAYPAL
   APPLE_PAY
   BIT
+  MESHULAM
 }
 
 model Order {

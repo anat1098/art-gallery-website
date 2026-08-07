@@ -93,6 +93,8 @@ export async function placeOrder(input: PlaceOrderInput) {
     orderNumber,
     currency: "USD",
     customerEmail: contact.email,
+    customerName: `${contact.firstName} ${contact.lastName}`,
+    customerPhone: contact.phone,
     successUrl: `${baseUrl}/checkout/success?order=${orderNumber}`,
     cancelUrl: `${baseUrl}/checkout`,
     lineItems: input.lines.map((l) => ({
@@ -105,6 +107,22 @@ export async function placeOrder(input: PlaceOrderInput) {
 
   if (!session.ok) {
     return { ok: false as const, error: session.error, orderNumber };
+  }
+
+  try {
+    await prisma.payment.create({
+      data: {
+        orderId,
+        provider: input.paymentProvider,
+        status: "PENDING",
+        providerRef: session.providerRef,
+        amount: total,
+        currency: "USD",
+      },
+    });
+  } catch {
+    // Non-fatal: the webhook can still reconcile the order by id even
+    // without a Payment row; we just lose the pre-checkout audit trail.
   }
 
   return { ok: true as const, redirectUrl: session.redirectUrl, orderNumber };

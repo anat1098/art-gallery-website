@@ -25,15 +25,14 @@ import { useLocale } from "@/components/providers/locale-provider";
 import type { PaymentProviderId } from "@/types/payment";
 
 const paymentOptions: { id: PaymentProviderId; label: string; available: boolean }[] = [
-  { id: "STRIPE", label: "Credit / Debit Card (Stripe)", available: true },
-  { id: "PAYPAL", label: "PayPal", available: false },
-  { id: "APPLE_PAY", label: "Apple Pay", available: false },
+  { id: "MESHULAM", label: "Credit / Debit Card", available: true },
   { id: "BIT", label: "Bit", available: false },
+  { id: "PAYPAL", label: "PayPal", available: false },
 ];
 
 export function CheckoutClient() {
   const lines = useCartStore((s) => s.lines);
-  const [paymentProvider, setPaymentProvider] = useState<PaymentProviderId>("STRIPE");
+  const [paymentProvider, setPaymentProvider] = useState<PaymentProviderId>("MESHULAM");
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const { format } = useCurrency();

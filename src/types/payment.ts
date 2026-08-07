@@ -1,4 +1,4 @@
-export type PaymentProviderId = "STRIPE" | "PAYPAL" | "APPLE_PAY" | "BIT";
+export type PaymentProviderId = "STRIPE" | "PAYPAL" | "APPLE_PAY" | "BIT" | "MESHULAM";
 
 export type CheckoutLineItem = {
   name: string;
@@ -11,6 +11,8 @@ export type CreateCheckoutSessionInput = {
   orderNumber: string;
   currency: string;
   customerEmail: string;
+  customerName: string;
+  customerPhone: string;
   successUrl: string;
   cancelUrl: string;
   lineItems: CheckoutLineItem[];
@@ -18,7 +20,7 @@ export type CreateCheckoutSessionInput = {
 };
 
 export type CreateCheckoutSessionResult =
-  | { ok: true; redirectUrl: string }
+  | { ok: true; redirectUrl: string; providerRef?: string }
   | { ok: false; error: string };
 
 export interface PaymentProvider {
